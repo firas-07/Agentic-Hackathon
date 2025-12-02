@@ -14,9 +14,9 @@ The system is built on three pillars: **Ingestion**, **Storage**, and **Retrieva
 ```mermaid
 graph LR
     A[Confluence Pages] -->|Fetch & Clean| B(Ingestion Pipeline)
-    B -->|Generate Embeddings| C[Vector Database (Pinecone)]
+    B -->|Generate Embeddings| C[Vector Database - Pinecone]
     D[User Question] -->|Search| C
-    C -->|Retrieve Context| E[LLM (Gemini)]
+    C -->|Retrieve Context| E[LLM - Gemini]
     E -->|Generate Answer| F[Final Response]
 ```
 
