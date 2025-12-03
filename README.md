@@ -25,6 +25,7 @@ backend/
 │
 ├── core/                     # ⚙️ Configuration
 │   └── config.py             # App configuration & Env vars
+│   └── pipeline.py           # Document ingestion pipeline
 │
 ├── models/                   # � Pydantic schemas
 │   ├── __init__.py
@@ -35,6 +36,10 @@ backend/
 │   ├── chat.py              # Chat endpoint
 │   ├── health.py            # Health check endpoints
 │   └── knowledge_base.py    # Knowledge base endpoints
+│
+|__ scripts/                 # 🛣️ API route handlers
+│   ├── __init__.py
+│   ├── setup_db.py           # Database setup script
 │
 ├── services/                 # 🧠 Business logic layer
 │   ├── __init__.py
