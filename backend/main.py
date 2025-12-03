@@ -6,7 +6,7 @@ import os
 # Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from src.config import *
+from core.config import *
 from services.knowledge_base import KnowledgeBase
 from services.agent import Agent
 from routers import chat, knowledge_base, health
@@ -43,7 +43,7 @@ async def startup_event():
         
         # 2. Run pipeline to ingest data
         print("📥 Running data ingestion pipeline...")
-        from src.pipeline import KnowledgeBase
+        from core.pipeline import KnowledgeBase
         pipeline_kb = KnowledgeBase()
         pipeline_kb.run_pipeline()
         print("✅ Data ingestion complete")

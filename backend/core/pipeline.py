@@ -5,15 +5,9 @@ import os
 from pinecone import Pinecone
 import uuid
 from sentence_transformers import SentenceTransformer
-
-# --- CONFIGURATION ---
-EMAIL = "your-email@example.com"
-API_TOKEN = "YOUR_ATLASSIAN_API_TOKEN"
-DOMAIN = "agent-support.atlassian.net"
-PAGE_IDS = ["557057", "851969"] 
-
-PINECONE_API_KEY = "YOUR_PINECONE_API_KEY"
-INDEX_NAME = "agentic-hackathon-index"
+import sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from src.config import *
 
 class KnowledgeBase:
     def __init__(self):
@@ -22,7 +16,50 @@ class KnowledgeBase:
         self.index = self.pc.Index(INDEX_NAME)
         # Load local embedding model
         print("Loading embedding model...")
-        self.model = SentenceTransformer('all-MiniLM-L6-v2')
+        try:
+            # Try using huggingface_hub directly to download
+            from huggingface_hub import hf_hub_download, snapshot_download
+            cache_dir = "./models_cache"
+            os.makedirs(cache_dir, exist_ok=True)
+            
+            # Download the model snapshot first
+            model_path = snapshot_download(
+                repo_id="sentence-transformers/all-MiniLM-L6-v2",
+                cache_dir=cache_dir,
+                local_files_only=False
+            )
+            print(f"Model downloaded to: {model_path}")
+            
+            # Now load the model from the local path
+            self.model = SentenceTransformer(model_path)
+            print("Model loaded successfully!")
+            
+        except Exception as e:
+            print(f"Error with HuggingFace approach: {e}")
+            print("Using simple TF-IDF as fallback...")
+            # Use sklearn's TfidfVectorizer as a simple fallback
+            from sklearn.feature_extraction.text import TfidfVectorizer
+            import numpy as np
+            
+            class SimpleEmbedder:
+                def __init__(self):
+                    self.vectorizer = TfidfVectorizer(max_features=384)  # Match embedding dimension
+                
+                def encode(self, texts):
+                    if isinstance(texts, str):
+                        texts = [texts]
+                    embeddings = self.vectorizer.fit_transform(texts).toarray()
+                    # Ensure we have exactly 384 dimensions
+                    if embeddings.shape[1] < 384:
+                        # Pad with zeros if needed
+                        padding = 384 - embeddings.shape[1]
+                        embeddings = np.pad(embeddings, ((0, 0), (0, padding)), 'constant')
+                    return embeddings
+                
+                def __call__(self, texts):
+                    return self.encode(texts)
+            
+            self.model = SimpleEmbedder()
 
     def clean_html(self, html_content):
         soup = BeautifulSoup(html_content, 'html.parser')

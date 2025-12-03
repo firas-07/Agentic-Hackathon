@@ -1,6 +1,0 @@
-.env
-__pycache__/
-*.pyc
-venv
-models_cache
-__init__.py
