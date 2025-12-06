@@ -1,21 +1,33 @@
 # 🚀 FastAPI Backend for Agentic RAG System
 
 ## **📖 Overview**
-This FastAPI backend provides REST API endpoints for the Agentic RAG System, enabling frontend applications to interact with an intelligent documentation assistant that can chat with Confluence knowledge bases.
+This FastAPI backend provides REST API endpoints for the Agentic RAG System, enabling applications to interact with an intelligent documentation assistant powered by Azure AI Foundry Agent. The system combines Confluence knowledge bases with Azure's GPT-4o-mini for accurate, context-aware responses.
 
 ## **🏗️ Backend Architecture**
 
 ```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Frontend      │────│   FastAPI       │────│   Pinecone      │
-│   (Web/Mobile)  │    │   Backend       │    │   Vector DB     │
-└─────────────────┘    └─────────────────┘    └─────────────────┘
-                              │
-                              │
-                       ┌─────────────────┐
-                       │   Gemini AI     │
-                       │   (LLM)         │
-                       └─────────────────┘
+┌─────────────────────┐
+│   FastAPI Backend   │
+│   (REST API)        │
+└──────────┬──────────┘
+           │
+    ┌──────┴──────┐
+    │             │
+┌───▼────┐   ┌────▼────────────────┐
+│Pinecone│   │ Azure AI Foundry    │
+│Vector  │   │ Agent               │
+│Database│   │ (GPT-4o-mini)       │
+└───┬────┘   └────┬────────────────┘
+    │             │
+    │        ┌────▼─────────┐
+    │        │ Azure AD     │
+    │        │ Authentication│
+    │        └──────────────┘
+    │
+┌───▼─────────────┐
+│  Confluence     │
+│  Knowledge Base │
+└─────────────────┘
 ```
 
 ## **📁 Project Structure**
@@ -24,10 +36,16 @@ This FastAPI backend provides REST API endpoints for the Agentic RAG System, ena
 backend/
 │
 ├── core/                     # ⚙️ Configuration
-│   └── config.py             # App configuration & Env vars
+│   ├── config.py             # App configuration & Env vars
+│   ├── logger.py             # Logging configuration
 │   └── pipeline.py           # Document ingestion pipeline
 │
-├── models/                   # � Pydantic schemas
+├── logs/                     # 📝 Application logs
+│   ├── app.log               # General application logs
+│   ├── error.log             # Error-specific logs
+│   └── README.md             # Logging documentation
+│
+├── models/                   # 📋 Pydantic schemas
 │   ├── __init__.py
 │   └── schemas.py            # API request/response models
 │
@@ -37,19 +55,22 @@ backend/
 │   ├── health.py            # Health check endpoints
 │   └── knowledge_base.py    # Knowledge base endpoints
 │
-|__ scripts/                 # 🛣️ API route handlers
+├── scripts/                  # 🔧 Utility scripts
 │   ├── __init__.py
-│   ├── setup_db.py           # Database setup script
+│   └── setup_db.py           # Database setup script
 │
 ├── services/                 # 🧠 Business logic layer
 │   ├── __init__.py
-│   ├── agent.py              # Query processing & LLM integration
+│   ├── agent.py              # Azure AI Agent integration & RAG logic
 │   └── knowledge_base.py     # Document ingestion pipeline
 │
 ├── .env                      # 🔐 Environment variables
-├── .gitignore                # � Git ignore file
+├── .gitignore                # 📁 Git ignore file
+├── create_agent.py           # 🤖 Azure agent creation script
 ├── main.py                   # 🚀 FastAPI application entry point
 ├── requirements.txt          # 📦 Backend dependencies
+├── view_logs.ps1             # 📊 PowerShell log viewer
+├── LOGGING.md                # 📚 Logging documentation
 └── README.md                 # 📖 This file
 ```
 
@@ -57,7 +78,11 @@ backend/
 
 ### **1. Prerequisites**
 - Python 3.10+
-- API Keys for: Atlassian (Confluence), Pinecone, and Google Gemini
+- API Keys for: Atlassian (Confluence), Pinecone
+- Azure AI Foundry account with:
+  - Azure AD credentials (Tenant ID, Client ID, Client Secret)
+  - AI Foundry project endpoint
+  - Created Azure AI Agent ID
 
 ### **2. Install Dependencies**
 ```bash
@@ -84,9 +109,12 @@ PAGE_IDS=12345,67890,111213
 PINECONE_API_KEY=your-pinecone-key
 INDEX_NAME=agentic-hackathon-index
 
-# Gemini Configuration
-GEMINI_API_KEY=your-gemini-key
-GEMINI_MODEL=gemini-2.0-flash
+# Azure AI Foundry Configuration
+AZURE_TENANT_ID=your-tenant-id
+AZURE_CLIENT_ID=your-client-id
+AZURE_CLIENT_SECRET=your-client-secret
+PROJECT_ENDPOINT=https://your-project.api.azureml.ms
+AZURE_AGENT_ID=asst_xxxxxxxxxxxxxxxxxxxxx
 
 # Embedding Model Configuration
 EMBEDDING_MODEL_NAME=all-MiniLM-L6-v2
@@ -120,7 +148,7 @@ Returns the health status of all connected services.
 {
   "status": "healthy",
   "pinecone_connected": true,
-  "gemini_connected": true
+  "azure_agent_connected": true
 }
 ```
 
@@ -203,9 +231,24 @@ Get statistics about the Pinecone index.
 2. Create an index with 384 dimensions (matching the embedding model)
 3. Copy your API key
 
-### **Gemini Setup**
-1. Get API key from [Google AI Studio](https://aistudio.google.com/)
-2. Ensure you have access to Gemini 2.0 Flash model
+### **Azure AI Foundry Setup**
+1. **Create Azure AI Project**:
+   - Go to [Azure AI Foundry](https://ai.azure.com/)
+   - Create a new project or use existing one
+   - Copy your Project Endpoint
+
+2. **Set up Azure AD Authentication**:
+   - Register an application in Azure AD
+   - Create a client secret
+   - Copy Tenant ID, Client ID, and Client Secret
+
+3. **Create AI Agent**:
+   ```bash
+   cd backend
+   python create_agent.py
+   ```
+   - This creates an agent named "AgentX-Firas" with GPT-4o-mini
+   - Copy the returned Agent ID to your .env file as `AZURE_AGENT_ID`
 
 ## **🛠️ Development Features**
 
@@ -219,8 +262,27 @@ The backend uses FastAPI's router system for clean separation of concerns:
 ### **Service Layer**
 Business logic is separated from API handlers:
 
-- **`services/agent.py`** - AI chat functionality with Gemini integration
+- **`services/agent.py`** - Azure AI Agent integration with RAG functionality
 - **`services/knowledge_base.py`** - Document processing and Pinecone operations
+
+### **Comprehensive Logging System**
+Production-ready logging with rotating file handlers:
+
+- **`core/logger.py`** - Centralized logging configuration
+- **`logs/app.log`** - General application logs (10MB rotation, 5 backups)
+- **`logs/error.log`** - Error-specific logs with stack traces
+- **`view_logs.ps1`** - PowerShell script for log viewing:
+  - `view_logs.ps1` - View all logs
+  - `view_logs.ps1 error` - View error logs only
+  - `view_logs.ps1 live` - Real-time log monitoring
+  - `view_logs.ps1 -lines 100` - View last 100 lines
+
+**Logging Features:**
+- UTF-8 encoding for cross-platform compatibility
+- Detailed request/response tracking
+- Azure AI Agent interaction logging
+- Pinecone query performance metrics
+- Automatic log rotation to prevent disk space issues
 
 ### **Robust Error Handling**
 - Comprehensive exception handling with proper HTTP status codes
@@ -252,10 +314,35 @@ Using simple TF-IDF as fallback...
 ```
 
 #### **API Key Issues**
-Ensure all API keys are correctly set in the `.env` file:
+Ensure all credentials are correctly set in the `.env` file:
 - Confluence API token (not your password)
 - Pinecone API key
-- Gemini API key
+- Azure Tenant ID, Client ID, and Client Secret
+- Azure Project Endpoint
+- Azure Agent ID
+
+#### **Azure AI Agent Issues**
+If you encounter Azure authentication errors:
+1. Verify your Azure AD credentials are correct
+2. Ensure your service principal has proper permissions
+3. Check that your Project Endpoint URL is correct
+4. Verify the Agent ID matches your created agent
+
+#### **Viewing Logs**
+Use the PowerShell log viewer for troubleshooting:
+```powershell
+# View all logs
+.\view_logs.ps1
+
+# View only errors
+.\view_logs.ps1 error
+
+# Live monitoring
+.\view_logs.ps1 live
+
+# View specific number of lines
+.\view_logs.ps1 -lines 50
+```
 
 #### **Module Import Errors**
 The backend uses dynamic path resolution to handle imports from the parent directory.
@@ -283,9 +370,11 @@ CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 ### **Environment Setup for Production**
 1. Set environment variables in your hosting platform
-2. Ensure Pinecone and Gemini API keys are securely configured
-3. Update CORS settings for your frontend domain
-4. Configure proper logging and monitoring
+2. Ensure Pinecone and Azure AI credentials are securely configured
+3. Update CORS settings for your specific domain
+4. Configure log rotation and monitoring
+5. Set up Azure Key Vault for secure credential management
+6. Enable Application Insights for Azure integration monitoring
 
 ## **🤝 Frontend Integration**
 
@@ -337,11 +426,26 @@ print(f"Answer: {result['answer']}")
 
 ## **📈 Monitoring & Logging**
 
-The application includes:
-- Console logging for service initialization
-- Error logging with detailed messages
-- Health check endpoints for monitoring
-- Pinecone index statistics for performance tracking
+The application includes a comprehensive logging system:
+- **Rotating file handlers** - Automatic log rotation (10MB files, 5 backups)
+- **UTF-8 encoding** - Cross-platform compatibility
+- **Separate error logs** - Dedicated error.log with stack traces
+- **Request tracking** - Detailed logging of all API requests
+- **Azure AI monitoring** - Thread creation, run status, response retrieval
+- **Pinecone metrics** - Query performance and match scores
+- **Health check endpoints** - Real-time service status monitoring
+- **PowerShell viewer** - Easy log analysis with view_logs.ps1
+
+**Log Levels:**
+- `INFO` - General application flow and operations
+- `WARNING` - Potential issues that don't prevent operation
+- `ERROR` - Critical errors with full stack traces
+
+**Log Files:**
+- `logs/app.log` - All application logs
+- `logs/error.log` - Error logs only
+
+See `LOGGING.md` for detailed logging documentation.
 
 ## **🎯 Future Enhancements**
 

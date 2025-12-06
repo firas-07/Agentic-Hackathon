@@ -3,7 +3,8 @@ uvicorn
 pydantic
 python-multipart
 beautifulsoup4
-google-genai
+azure-identity
+azure-ai-projects
 pinecone
 requests
 sentence-transformers

@@ -7,7 +7,7 @@ import uuid
 from sentence_transformers import SentenceTransformer
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from src.config import *
+from core.config import *
 
 class KnowledgeBase:
     def __init__(self):

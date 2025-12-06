@@ -6,7 +6,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from pinecone import Pinecone, ServerlessSpec
 import time
-from src.config import *
+from core.config import *
 
 def setup_pinecone():
     print("Initializing Pinecone...")

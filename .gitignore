@@ -4,3 +4,11 @@ __pycache__/
 venv
 models_cache
 __init__.py
+create_agent.py
+
+# Logs
+logs/
+*.log
+
+view_logs.ps1
+frontend

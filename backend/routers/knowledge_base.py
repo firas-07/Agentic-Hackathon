@@ -6,9 +6,11 @@ import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from core.config import *
+from core.logger import setup_logger
 from services.knowledge_base import KnowledgeBase
 from models.schemas import IngestResponse
 
+logger = setup_logger('knowledge_base_router')
 router = APIRouter()
 
 # Global knowledge base instance
