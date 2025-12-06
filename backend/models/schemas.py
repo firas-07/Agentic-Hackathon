@@ -1,12 +1,16 @@
 from pydantic import BaseModel
 from typing import List, Optional
+from datetime import datetime
 
 class QueryRequest(BaseModel):
     query: str
+    thread_id: Optional[str] = None
     top_k: Optional[int] = 3
 
 class QueryResponse(BaseModel):
     answer: str
+    thread_id: str
+    conversation_title: Optional[str] = None
     sources: List[dict]
     confidence_scores: List[float]
 
@@ -28,3 +32,31 @@ class SourceInfo(BaseModel):
 class MatchInfo(BaseModel):
     score: float
     source: SourceInfo
+
+class Message(BaseModel):
+    role: str  # "user" or "assistant"
+    content: str
+    timestamp: str
+    sources: Optional[List[dict]] = None
+
+class Conversation(BaseModel):
+    thread_id: str
+    title: str
+    created_at: str
+    updated_at: str
+    message_count: int
+
+class ConversationDetail(BaseModel):
+    thread_id: str
+    title: str
+    created_at: str
+    updated_at: str
+    messages: List[Message]
+
+class ConversationListResponse(BaseModel):
+    conversations: List[Conversation]
+
+class CreateConversationResponse(BaseModel):
+    thread_id: str
+    title: str
+    created_at: str
