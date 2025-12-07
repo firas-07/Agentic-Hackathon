@@ -11,4 +11,6 @@ logs/
 *.log
 
 view_logs.ps1
-frontend
+node_modules
+package-lock.json
+**/package-lock.json
