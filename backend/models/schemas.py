@@ -5,7 +5,7 @@ from datetime import datetime
 class QueryRequest(BaseModel):
     query: str
     thread_id: Optional[str] = None
-    top_k: Optional[int] = 3
+    top_k: Optional[int] = 10
 
 class QueryResponse(BaseModel):
     answer: str

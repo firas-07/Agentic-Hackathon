@@ -118,7 +118,7 @@ class Agent:
         self.conversations: Dict[str, Dict] = {}
         logger.info("Conversation storage initialized")
 
-    def search_knowledge_base(self, query, top_k=3):
+    def search_knowledge_base(self, query, top_k=10):
         """
         Searches Pinecone for the most relevant chunks of text.
         """
