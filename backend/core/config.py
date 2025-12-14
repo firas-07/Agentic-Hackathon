@@ -29,3 +29,8 @@ AZURE_MODEL_NAME = os.getenv("AZURE_MODEL_NAME", "gpt-4o-mini")
 
 # Embedding Model
 EMBEDDING_MODEL_NAME = os.getenv("EMBEDDING_MODEL_NAME", "all-MiniLM-L6-v2")
+
+# Security
+SECRET_KEY = os.getenv("SECRET_KEY", "your-super-secret-key-change-this-in-production")
+ALGORITHM = "HS256"
+ACCESS_TOKEN_EXPIRE_MINUTES = 30

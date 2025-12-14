@@ -41,7 +41,7 @@ export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHisto
                                 <div className={`
                 w-8 h-8 shrink-0 rounded-full flex items-center justify-center shadow-lg border overflow-hidden
                 ${isUser
-                                        ? 'bg-white text-black border-white/20'
+                                        ? 'bg-white dark:bg-neutral-200 text-black border-neutral-200 dark:border-white/20'
                                         : 'bg-indigo-600 text-white border-indigo-500/30'
                                     }
               `}>
@@ -60,28 +60,28 @@ export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHisto
                                 <div className={`
                 flex flex-col overflow-hidden shadow-xl
                 ${isUser
-                                        ? 'bg-neutral-100 text-black rounded-2xl rounded-tr-sm'
-                                        : 'bg-neutral-900 border border-neutral-800 text-neutral-200 rounded-2xl rounded-tl-sm'
+                                        ? 'bg-neutral-200 dark:bg-neutral-100 text-black rounded-2xl rounded-tr-sm'
+                                        : 'bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-200 rounded-2xl rounded-tl-sm'
                                     }
               `}>
                                     <div className={`px-4 py-2.5 ${isUser ? 'text-[15px]' : 'text-[15px] leading-7'}`}>
                                         {isUser ? (
                                             <div className="whitespace-pre-wrap">{msg.content}</div>
                                         ) : (
-                                            <div className="markdown prose prose-invert max-w-none">
+                                            <div className="markdown prose dark:prose-invert max-w-none">
                                                 <ReactMarkdown
                                                     components={{
-                                                        h1: ({ node, ...props }) => <h1 className="text-lg font-bold text-white mb-1 mt-2 first:mt-0" {...props} />,
-                                                        h2: ({ node, ...props }) => <h2 className="text-base font-semibold text-white mb-1 mt-2" {...props} />,
-                                                        h3: ({ node, ...props }) => <h3 className="text-sm font-semibold text-white mb-1 mt-1.5" {...props} />,
-                                                        p: ({ node, ...props }) => <p className="mb-2 last:mb-0 leading-relaxed text-neutral-300" {...props} />,
-                                                        ul: ({ node, ...props }) => <ul className="list-disc pl-4 mb-2 space-y-0.5 text-neutral-300" {...props} />,
-                                                        ol: ({ node, ...props }) => <ol className="list-decimal pl-4 mb-2 space-y-0.5 text-neutral-300" {...props} />,
+                                                        h1: ({ node, ...props }) => <h1 className="text-lg font-bold text-neutral-900 dark:text-white mb-1 mt-2 first:mt-0" {...props} />,
+                                                        h2: ({ node, ...props }) => <h2 className="text-base font-semibold text-neutral-900 dark:text-white mb-1 mt-2" {...props} />,
+                                                        h3: ({ node, ...props }) => <h3 className="text-sm font-semibold text-neutral-900 dark:text-white mb-1 mt-1.5" {...props} />,
+                                                        p: ({ node, ...props }) => <p className="mb-2 last:mb-0 leading-relaxed text-neutral-600 dark:text-neutral-300" {...props} />,
+                                                        ul: ({ node, ...props }) => <ul className="list-disc pl-4 mb-2 space-y-0.5 text-neutral-600 dark:text-neutral-300" {...props} />,
+                                                        ol: ({ node, ...props }) => <ol className="list-decimal pl-4 mb-2 space-y-0.5 text-neutral-600 dark:text-neutral-300" {...props} />,
                                                         li: ({ node, ...props }) => <li className="pl-1" {...props} />,
-                                                        strong: ({ node, ...props }) => <strong className="font-semibold text-indigo-300" {...props} />,
-                                                        a: ({ node, ...props }) => <a className="text-indigo-400 hover:underline" target="_blank" rel="noopener noreferrer" {...props} />,
-                                                        blockquote: ({ node, ...props }) => <blockquote className="border-l-2 border-indigo-500 pl-4 py-1 my-2 bg-white/5 rounded-r text-neutral-400 italic" {...props} />,
-                                                        code: ({ node, ...props }) => <code className="bg-black/30 text-indigo-300 px-1.5 py-0.5 rounded text-xs font-mono border border-white/10" {...props} />,
+                                                        strong: ({ node, ...props }) => <strong className="font-semibold text-indigo-600 dark:text-indigo-300" {...props} />,
+                                                        a: ({ node, ...props }) => <a className="text-indigo-500 dark:text-indigo-400 hover:underline" target="_blank" rel="noopener noreferrer" {...props} />,
+                                                        blockquote: ({ node, ...props }) => <blockquote className="border-l-2 border-indigo-500 pl-4 py-1 my-2 bg-neutral-100 dark:bg-white/5 rounded-r text-neutral-500 dark:text-neutral-400 italic" {...props} />,
+                                                        code: ({ node, ...props }) => <code className="bg-neutral-100 dark:bg-black/30 text-indigo-600 dark:text-indigo-300 px-1.5 py-0.5 rounded text-xs font-mono border border-neutral-200 dark:border-white/10" {...props} />,
                                                     }}
                                                 >
                                                     {msg.content}
@@ -92,8 +92,8 @@ export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHisto
 
                                     {/* Sources Footer */}
                                     {!isUser && msg.sources && msg.sources.length > 0 && (
-                                        <div className="bg-black/20 border-t border-white/5 p-3 space-y-2 relative">
-                                            <div className="flex items-center gap-1.5 text-neutral-400 text-[10px] uppercase tracking-wider font-semibold px-1">
+                                        <div className="bg-neutral-50 dark:bg-black/20 border-t border-neutral-200 dark:border-white/5 p-3 space-y-2 relative">
+                                            <div className="flex items-center gap-1.5 text-neutral-500 dark:text-neutral-400 text-[10px] uppercase tracking-wider font-semibold px-1">
                                                 <BookOpen size={12} />
                                                 <span className="opacity-70">Sources found</span>
                                             </div>
@@ -103,15 +103,15 @@ export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHisto
                                                         key={i}
                                                         onClick={() => setSelectedSource(source)}
                                                         className="
-                                  bg-black/40 border border-white/5 hover:border-indigo-500/30 hover:bg-neutral-800
+                                  bg-white dark:bg-black/40 border border-neutral-200 dark:border-white/5 hover:border-indigo-500/30 hover:bg-neutral-50 dark:hover:bg-neutral-800
                                   p-2.5 rounded-lg transition-all cursor-pointer group
                                 "
                                                     >
-                                                        <div className="font-medium text-indigo-400 text-xs mb-0.5 truncate flex items-center gap-1">
+                                                        <div className="font-medium text-indigo-500 dark:text-indigo-400 text-xs mb-0.5 truncate flex items-center gap-1">
                                                             <div className="w-1 h-1 rounded-full bg-indigo-500"></div>
                                                             {source.source}
                                                         </div>
-                                                        <div className="text-[11px] text-neutral-500 line-clamp-2 leading-relaxed group-hover:text-neutral-400">
+                                                        <div className="text-[11px] text-neutral-500 dark:text-neutral-500 line-clamp-2 leading-relaxed group-hover:text-neutral-600 dark:group-hover:text-neutral-400">
                                                             {source.chunk_text}
                                                         </div>
                                                     </div>
@@ -135,9 +135,9 @@ export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHisto
                                     className="w-full h-full object-cover"
                                 />
                             </div>
-                            <div className="bg-neutral-900 border border-neutral-800 text-neutral-200 rounded-2xl rounded-tl-sm px-5 py-4 shadow-xl flex items-center gap-3">
+                            <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-200 rounded-2xl rounded-tl-sm px-5 py-4 shadow-xl flex items-center gap-3">
                                 <LoadingSpinner size={18} />
-                                <span className="text-sm font-medium bg-gradient-to-r from-neutral-200 to-neutral-500 bg-clip-text text-transparent animate-pulse">Reasoning...</span>
+                                <span className="text-sm font-medium bg-gradient-to-r from-neutral-500 to-neutral-800 dark:from-neutral-200 dark:to-neutral-500 bg-clip-text text-transparent animate-pulse">Reasoning...</span>
                             </div>
                         </div>
                     </div>

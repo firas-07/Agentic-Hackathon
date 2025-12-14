@@ -87,7 +87,7 @@ export const DesktopSidebar = ({
   return (
     <motion.div
       className={cn(
-        "h-full px-4 py-4 hidden md:flex md:flex-col bg-black border-r border-neutral-900 w-[300px] flex-shrink-0",
+        "h-full px-4 py-4 hidden md:flex md:flex-col bg-white dark:bg-black border-r border-neutral-200 dark:border-neutral-900 w-[300px] flex-shrink-0",
         className
       )}
       animate={{
@@ -112,13 +112,13 @@ export const MobileSidebar = ({
     <>
       <div
         className={cn(
-          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-black border-b border-neutral-900 w-full"
+          "h-10 px-4 py-4 flex flex-row md:hidden items-center justify-between bg-white dark:bg-black border-b border-neutral-200 dark:border-neutral-900 w-full"
         )}
         {...props}
       >
         <div className="flex justify-start z-20 w-full">
           <Menu
-            className="text-white cursor-pointer"
+            className="text-neutral-900 dark:text-white cursor-pointer"
             onClick={() => setOpen(!open)}
           />
         </div>
@@ -133,12 +133,12 @@ export const MobileSidebar = ({
                 ease: "easeInOut",
               }}
               className={cn(
-                "fixed h-full w-full inset-0 bg-black p-10 z-[100] flex flex-col justify-between",
+                "fixed h-full w-full inset-0 bg-white dark:bg-black p-10 z-[100] flex flex-col justify-between",
                 className
               )}
             >
               <div
-                className="absolute right-10 top-10 z-50 text-white cursor-pointer"
+                className="absolute right-10 top-10 z-50 text-neutral-900 dark:text-white cursor-pointer"
                 onClick={() => setOpen(!open)}
               >
                 <X />
@@ -159,10 +159,10 @@ export const SidebarLink = ({
 }: {
   link: Links;
   className?: string;
-  props?: any;
+  [key: string]: any;
 }) => {
   const { open, animate } = useSidebar();
-  
+
   const Component = link.href ? 'a' : 'div';
   const hrefProps = link.href ? { href: link.href } : {};
 
@@ -183,7 +183,7 @@ export const SidebarLink = ({
           display: animate ? (open ? "inline-block" : "none") : "inline-block",
           opacity: animate ? (open ? 1 : 0) : 1,
         }}
-        className="text-neutral-400 group-hover/sidebar:text-white text-sm transition duration-150 whitespace-pre inline-block !p-0 !m-0"
+        className="text-neutral-600 dark:text-neutral-400 group-hover/sidebar:text-neutral-900 dark:group-hover/sidebar:text-white text-sm transition duration-150 whitespace-pre inline-block !p-0 !m-0"
       >
         {link.label}
       </motion.span>

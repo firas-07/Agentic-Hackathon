@@ -17,6 +17,14 @@ const apiClient = axios.create({
   },
 });
 
+apiClient.interceptors.request.use((config) => {
+  const token = localStorage.getItem('token');
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`;
+  }
+  return config;
+});
+
 export const api = {
   getHealth: async (): Promise<HealthResponse> => {
     const response = await apiClient.get<HealthResponse>('/health');

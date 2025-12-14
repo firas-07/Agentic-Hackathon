@@ -24,7 +24,7 @@ def set_instances(kb_instance, agent_instance):
 
 @router.get("/", tags=["Health"])
 async def root():
-    return {"message": "Agentic RAG System API is running"}
+    return {"message": "Agentic AI Assistant API is running"}
 
 @router.get("/health", response_model=HealthResponse, tags=["Health"])
 async def health_check():

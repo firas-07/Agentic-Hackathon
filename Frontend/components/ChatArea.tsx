@@ -72,12 +72,13 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ activeThreadId, onThreadCrea
         }
     });
 
-    const handleSend = (e?: React.FormEvent) => {
+    const handleSend = (e?: React.FormEvent, queryOverride?: string) => {
         e?.preventDefault();
-        if (!input.trim() || mutation.isPending) return;
+        const queryToSend = queryOverride || input;
+        if (!queryToSend.trim() || mutation.isPending) return;
 
         mutation.mutate({
-            query: input,
+            query: queryToSend,
             thread_id: activeThreadId || undefined,
         });
     };
@@ -90,14 +91,10 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ activeThreadId, onThreadCrea
     };
 
     return (
-        <div className="flex-1 flex flex-col h-full relative bg-black rounded-none overflow-hidden">
+        <div className="flex-1 flex flex-col h-full relative bg-white dark:bg-black rounded-none overflow-hidden">
             {/* Messages Area OR Hero */}
             {!activeThreadId && localMessages.length === 0 ? (
-                <ChatHero setInput={(query) => {
-                    setInput(query);
-                    // Optional: auto-send or focus input. 
-                    // Current implementation just sets input state. 
-                }} />
+                <ChatHero onSend={(query) => handleSend(undefined, query)} />
             ) : (
                 <MessageList
                     localMessages={localMessages}

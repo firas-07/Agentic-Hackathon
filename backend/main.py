@@ -10,12 +10,12 @@ from core.config import *
 from core.logger import setup_logger
 from services.knowledge_base import KnowledgeBase
 from services.agent import Agent
-from routers import chat, knowledge_base, health
+from routers import chat, knowledge_base, health, auth
 
 logger = setup_logger('main')
 
 app = FastAPI(
-    title="Agentic RAG System API",
+    title="Agentic AI Assistant API",
     description="Chat with Knowledge Base - Intelligent Support Assistant for Confluence Documentation",
     version="1.0.0"
 )
@@ -38,7 +38,7 @@ async def startup_event():
     """Initialize services on startup"""
     global kb, agent
     logger.info("="*60)
-    logger.info("Starting Agentic RAG System API")
+    logger.info("Starting Agentic AI Assistant API")
     logger.info("="*60)
     
     try:
@@ -82,6 +82,7 @@ async def startup_event():
 app.include_router(health.router, prefix="/api")
 app.include_router(knowledge_base.router, prefix="/api")
 app.include_router(chat.router, prefix="/api")
+app.include_router(auth.router, prefix="/api/auth")
 
 if __name__ == "__main__":
     import uvicorn
