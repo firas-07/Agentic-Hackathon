@@ -1,0 +1,29 @@
+{
+  "thread_uj9q0u6NZ5WCy6k7PCFGO678": {
+    "thread_id": "thread_uj9q0u6NZ5WCy6k7PCFGO678",
+    "title": "Starting a New Conversation",
+    "created_at": "2026-01-10T21:35:03.040303",
+    "updated_at": "2026-01-10T21:35:15.453763",
+    "messages": [
+      {
+        "role": "user",
+        "content": "ok ",
+        "timestamp": "2026-01-10T21:35:09.893106",
+        "sources": null
+      },
+      {
+        "role": "assistant",
+        "content": "I don't know.",
+        "timestamp": "2026-01-10T21:35:09.893106",
+        "sources": []
+      }
+    ]
+  },
+  "thread_75Jx70SWgW7udz1UOyw3AdPG": {
+    "thread_id": "thread_75Jx70SWgW7udz1UOyw3AdPG",
+    "title": null,
+    "created_at": "2026-01-10T21:35:30.785468",
+    "updated_at": "2026-01-10T21:35:30.785468",
+    "messages": []
+  }
+}

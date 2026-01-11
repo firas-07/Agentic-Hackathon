@@ -1,0 +1,24 @@
+.env
+__pycache__/
+*.pyc
+venv
+models_cache
+__init__.py
+create_agent.py
+myvenv
+backend/debug_pinecone_full.py
+backend/debug_pinecone.py
+backend/test_conversation_detail.py
+backend/test_pinecone.py
+backend/test_update_delete.py
+backend/debug_azure.py
+debug_output.txt
+jira.py
+# Logs
+logs/
+*.log
+
+view_logs.ps1
+node_modules
+package-lock.json
+**/package-lock.json
