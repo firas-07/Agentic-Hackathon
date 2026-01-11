@@ -9,10 +9,9 @@ interface MessageListProps {
     isHistoryLoading: boolean;
     error: any;
     isPending: boolean;
-    setSelectedSource: (source: Source) => void;
 }
 
-export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHistoryLoading, error, isPending, setSelectedSource }) => {
+export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHistoryLoading, error, isPending }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
 
     // Scroll to bottom
@@ -111,18 +110,14 @@ export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHisto
                                                     return uniqueSources?.map((source, i) => (
                                                         <div
                                                             key={i}
-                                                            onClick={() => setSelectedSource(source)}
                                                             className="
-                                  bg-white dark:bg-black/40 border border-neutral-200 dark:border-white/5 hover:border-indigo-500/30 hover:bg-neutral-50 dark:hover:bg-neutral-800
-                                  p-2.5 rounded-lg transition-all cursor-pointer group
+                                  bg-white dark:bg-black/40 border border-neutral-200 dark:border-white/5
+                                  p-2.5 rounded-lg transition-all
                                 "
                                                         >
                                                             <div className="font-medium text-indigo-500 dark:text-indigo-400 text-xs mb-0.5 truncate flex items-center gap-1">
                                                                 <div className="w-1 h-1 rounded-full bg-indigo-500"></div>
                                                                 {source.source}
-                                                            </div>
-                                                            <div className="text-[11px] text-neutral-500 dark:text-neutral-500 line-clamp-2 leading-relaxed group-hover:text-neutral-600 dark:group-hover:text-neutral-400">
-                                                                {source.chunk_text}
                                                             </div>
                                                         </div>
                                                     ));
@@ -148,7 +143,7 @@ export const MessageList: React.FC<MessageListProps> = ({ localMessages, isHisto
                             </div>
                             <div className="bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-neutral-200 rounded-2xl rounded-tl-sm px-5 py-4 shadow-xl flex items-center gap-3">
                                 <LoadingSpinner size={18} />
-                                <span className="text-sm font-medium bg-gradient-to-r from-neutral-500 to-neutral-800 dark:from-neutral-200 dark:to-neutral-500 bg-clip-text text-transparent animate-pulse">Reasoning...</span>
+                                <span className="text-sm font-medium bg-gradient-to-r from-neutral-500 to-neutral-800 dark:from-neutral-200 dark:to-neutral-500 bg-clip-text text-transparent animate-pulse">Processing...</span>
                             </div>
                         </div>
                     </div>

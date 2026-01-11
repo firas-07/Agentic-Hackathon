@@ -5,7 +5,6 @@ import { ConversationDetail, Message, Source } from '../types';
 import { ChatHero } from './chat/ChatHero';
 import { ChatInput } from './chat/ChatInput';
 import { MessageList } from './chat/MessageList';
-import { SourceModal } from './chat/SourceModal';
 
 interface ChatAreaProps {
     activeThreadId: string | null;
@@ -16,7 +15,6 @@ interface ChatAreaProps {
 export const ChatArea: React.FC<ChatAreaProps> = ({ activeThreadId, onThreadCreated }) => {
     const queryClient = useQueryClient();
     const [input, setInput] = useState('');
-    const [selectedSource, setSelectedSource] = useState<Source | null>(null);
 
     // Local state for messages to handle immediate UI updates
     const [localMessages, setLocalMessages] = useState<Message[]>([]);
@@ -119,7 +117,6 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ activeThreadId, onThreadCrea
                     isHistoryLoading={isHistoryLoading}
                     error={error}
                     isPending={mutation.isPending}
-                    setSelectedSource={setSelectedSource}
                 />
             )}
 
@@ -133,9 +130,7 @@ export const ChatArea: React.FC<ChatAreaProps> = ({ activeThreadId, onThreadCrea
             />
 
             {/* Source Details Modal */}
-            {selectedSource && (
-                <SourceModal selectedSource={selectedSource} onClose={() => setSelectedSource(null)} />
-            )}
+
         </div>
     );
 };

@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../services/api';
 import { MessageSquare, Trash2, Edit2, Plus, Check, X, LogOut, Sun, Moon } from 'lucide-react';
-import { StatusWidget } from './StatusWidget';
 import { LoadingSpinner } from './LoadingSpinner';
 import { Sidebar as UISidebar, SidebarBody, useSidebar } from './ui/sidebar';
 import { motion } from 'framer-motion';
@@ -244,8 +243,6 @@ const SidebarContent: React.FC<SidebarProps & { setOpen: (o: boolean) => void }>
 
         {/* Footer / Status */}
         <div className="mt-auto flex flex-col gap-2">
-          <StatusWidget />
-
           {/* User Profile */}
           <div className={cn(
             "flex items-center gap-3 py-3 px-2 rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800",
