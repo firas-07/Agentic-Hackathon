@@ -34,15 +34,14 @@ In modern MNCs, employees waste hours searching for policies or filing tickets. 
 
 ## **🏗️ Architecture**
 
-```mermaid
-graph TD
-    User[User] -->|Interacts| Frontend[React + Tailwind]
-    Frontend -->|REST API| Backend[FastAPI]
-    Backend -->|Search| Pinecone[Pinecone Vector DB]
-    Backend -->|Orchestrate| AzureAI[Azure AI Agent]
-    
-    AzureAI -->|Tool Call| Jira[Jira Cloud]
-    Pinecone <-->|Ingestion| Confluence[Confluence Cloud]
+```text
+[ User ] -> [ Frontend (React) ] -> [ Backend (FastAPI) ]
+                                          |
+                                          +-> [ Pinecone Vector DB ]
+                                          |
+                                          +-> [ Azure AI Agent (GPT-4o) ] -> [ Jira Cloud ]
+                                          |
+                                          +-> [ Confluence Cloud ]
 ```
 
 ---
@@ -83,24 +82,35 @@ source venv/bin/activate
 pip install -r requirements.txt
 ```
 
-**Create a `.env` file** in `backend/` with the following:
+**Create a `.env` file** in `backend/` with the following configuration:
 ```ini
-# Confluence & Jira
-EMAIL=your-email@company.com
-API_TOKEN=your-atlassian-api-token
-DOMAIN=your-domain.atlassian.net
-PAGE_IDS=12345,67890
+# Confluence Configuration
+EMAIL=
+API_TOKEN=
+DOMAIN=
+PAGE_IDS=
 
-# Pinecone
-PINECONE_API_KEY=your-pinecone-key
-INDEX_NAME=agentic-hackathon-index
+# Pinecone Configuration
+PINECONE_API_KEY=
+INDEX_NAME=
+EMBEDDING_MODEL_NAME=
 
-# Azure AI Foundry
-AZURE_TENANT_ID=...
-AZURE_CLIENT_ID=...
-AZURE_CLIENT_SECRET=...
-PROJECT_ENDPOINT=...
-AZURE_AGENT_ID=...
+# Azure AI Foundry Agent Configuration
+PROJECT_ENDPOINT=
+CLIENT_ID=
+CLIENT_SECRET=
+TENANT_ID=
+AZURE_MODEL_NAME=gpt-4o
+AZURE_AGENT_ID=
+
+# Security
+SECRET_KEY=
+
+# Jira Configuration
+JIRA_BASE_URL=
+JIRA_EMAIL=
+JIRA_API_TOKEN=
+JIRA_PROJECT_KEY=
 ```
 
 Run the server:
