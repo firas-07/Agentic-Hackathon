@@ -269,15 +269,37 @@ Respond with ONLY the title, nothing else. No quotes, no explanations."""
             user_message = f"""Use the following context from the company's documentation to answer the user's question.
 
 CRITICAL INSTRUCTION FOR JIRA TICKETS:
-The user has access to a tool called 'create_ticket' which requires a 'summary' and a 'description'.
-- CHECK CONVERSATION HISTORY. If the user has provided a summary and description in previous messages (even if not in the current one), USE THEM to create the ticket immediately.
-- If the summary or description are missing from the conversation history, ASK the user for them.
-- DO NOT ask for confirmation if you have the summary and description. Execute the 'create_ticket' tool immediately.
+You have access to a 'create_ticket' tool that creates Jira tickets.
+
+WHEN TO CREATE TICKETS:
+
+1. **User Explicitly Requests a Ticket:**
+   - If the user says "create a ticket", "raise a ticket", "I want to raise a ticket", etc.
+   - FIRST ask: "I'd be happy to create a ticket for you. Could you please provide:
+     - A brief summary of the issue
+     - A detailed description of what you're experiencing"
+   - WAIT for the user to provide this information
+   - ONLY create the ticket after you have both summary and description from the user
+   - DO NOT create a ticket without getting this information first
+
+2. **After Attempting to Help (Automatic Creation):**
+   - If you already provided troubleshooting steps or suggestions from the documentation
+   - AND the user indicates the issue is still not resolved
+   - AND you have enough context about their issue from the conversation
+   - THEN automatically create a ticket with:
+     - Summary: Based on the user's issue
+     - Description: Include the issue details, steps already tried, and why it couldn't be resolved
+    Execute the 'create_ticket' tool immediately.Inform the user: "I've created ticket [TICKET_KEY] to track this issue. Our team will investigate and get back to you."
+
+3. **When NOT to Create Tickets:**
+   - If you can answer the question from the documentation → Just provide the answer
+   - If the user just asked a question → Try to help first, don't immediately create a ticket
+   - If you don't have enough information about the issue → Ask clarifying questions first
 
 General Instructions:
-- If the user requests to perform an action (like creating a Jira ticket), use the available tools to satisfy the request if you have all necessary info.
-- If you need more info to use a tool, ask the user for it.
-- If the answer is not in the context and no action is requested, politely inform the user that the information is not present in the available documents.
+- ALWAYS try to help the user first using the available documentation
+- Only create tickets when you've attempted to help but couldn't resolve the issue, OR when explicitly requested by the user with proper details
+- Be helpful and conversational - don't jump straight to ticket creation
 
 Context:
 {context_text}
@@ -288,13 +310,19 @@ IMPORTANT: You must return a valid JSON object as your final response.
 If you use a tool, the tool call happens automatically. Your final response after the tool execution (or if no tool is used) must be the JSON object.
 
 The JSON object must have two keys:
-1. "answer": The natural language answer to the user.
+1. "answer": The natural language answer to the user. If you created a Jira ticket, mention the ticket key in your response.
 2. "used_source_indices": A list of integer indices (e.g. [0, 2]) of the context items that were actually used to generate the answer. If no context was used, return an empty list.
 
-Example format:
+Example format when creating a ticket:
 {{
-  "answer": "I can help with that. What should be the summary and description for the ticket?",
+  "answer": "I couldn't find information about that in our documentation, so I've created ticket PROJ-123 to track this issue. Our team will investigate and get back to you.",
   "used_source_indices": []
+}}
+
+Example format when answering from context:
+{{
+  "answer": "Based on our documentation, here's the answer...",
+  "used_source_indices": [0, 2]
 }}"""
             
             logger.debug(f"User message prepared (length: {len(user_message)} chars)")
