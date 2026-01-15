@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Bot, User, Building2, ArrowRight, Loader2, Lock, User as UserIcon, Check } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { Building2, User, Loader2, ArrowRight, Lock } from 'lucide-react';
 import axios from 'axios';
 
 export const SignupPage: React.FC = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    const [role, setRole] = useState<'End User' | 'Business User'>('End User');
+    // Defaulting to 'Business User' as per MNC theme, can be hardcoded if needed but keeping state since backend expects it
+    const role = 'Business User';
+
     const [formData, setFormData] = useState({
         username: '',
         password: '',
         confirmPassword: ''
     });
     const [error, setError] = useState('');
-    const [focusedField, setFocusedField] = useState<string | null>(null);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -35,235 +34,131 @@ export const SignupPage: React.FC = () => {
                 role: role
             });
 
-            // Store token and user info
             localStorage.setItem('token', response.data.access_token);
             localStorage.setItem('role', response.data.role);
             localStorage.setItem('username', response.data.username);
 
-            // Redirect to chat
             navigate('/chat');
         } catch (err: any) {
-            setError(err.response?.data?.detail || 'Something went wrong. Please try again.');
+            setError(err.response?.data?.detail || 'Something went wrong.');
         } finally {
             setIsLoading(false);
         }
     };
 
     return (
-        <div className="min-h-screen bg-black text-white flex overflow-hidden font-sans">
-            {/* Background Effects */}
-            <div className="fixed inset-0 z-0 pointer-events-none">
-                <div className="absolute top-0 left-0 w-[1000px] h-[1000px] bg-indigo-900/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2" />
-                <div className="absolute bottom-0 right-0 w-[800px] h-[800px] bg-purple-900/20 rounded-full blur-[100px] translate-x-1/3 translate-y-1/3" />
-            </div>
+        <div className="min-h-screen bg-slate-50 flex items-center justify-center p-6 font-sans">
+            <div className="bg-white rounded-2xl shadow-xl w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 overflow-hidden border border-slate-200">
+                {/* Visual Side */}
+                <div className="bg-blue-700 text-white p-12 flex flex-col justify-center relative overflow-hidden">
+                    <div className="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full blur-[80px] translate-x-1/2 -translate-y-1/2"></div>
+                    <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-900 opacity-20 rounded-full blur-[80px] -translate-x-1/2 translate-y-1/2"></div>
 
-            {/* Left Side - Visual */}
-            <div className="hidden lg:flex w-1/2 relative flex-col items-center justify-center p-12 z-10 border-r border-white/5 bg-white/[0.02]">
-                <div className="relative z-10 max-w-lg text-center">
-                    <motion.div
-                        initial={{ scale: 0.8, opacity: 0 }}
-                        animate={{ scale: 1, opacity: 1 }}
-                        transition={{ duration: 0.7, ease: "easeOut" }}
-                        className="w-32 h-32 bg-gradient-to-tr from-blue-600 to-indigo-600 rounded-3xl mx-auto mb-10 flex items-center justify-center shadow-[0_0_50px_-10px_rgba(79,70,229,0.3)]"
-                    >
-                        <Bot className="w-16 h-16 text-white" />
-                    </motion.div>
+                    <div className="relative z-10 max-w-md mx-auto">
+                        <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center text-white mb-8 border border-white/20">
+                            <Building2 size={24} />
+                        </div>
+                        <h2 className="text-3xl font-bold mb-6">Join Hexa Agent.</h2>
+                        <p className="text-blue-100 text-lg leading-relaxed mb-8">
+                            Create your professional account to start automating tickets and accessing the knowledge base.
+                        </p>
 
-                    <motion.h2
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.2, duration: 0.7 }}
-                        className="text-4xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400"
-                    >
-                        Join the Future
-                    </motion.h2>
-
-                    <motion.p
-                        initial={{ y: 20, opacity: 0 }}
-                        animate={{ y: 0, opacity: 1 }}
-                        transition={{ delay: 0.3, duration: 0.7 }}
-                        className="text-lg text-zinc-400 leading-relaxed"
-                    >
-                        Create an account to unlock your personalized AI workspace. <br />
-                        Connect with your team's knowledge instantly.
-                    </motion.p>
+                        <div className="p-4 bg-blue-800/50 rounded-xl border border-blue-500/30">
+                            <div className="flex gap-3 mb-2">
+                                <div className="w-2 h-2 rounded-full bg-green-400 mt-2"></div>
+                                <p className="text-sm font-medium">Enterprise Ready</p>
+                            </div>
+                            <p className="text-xs text-blue-200">
+                                Seamlessly integrates with your existing Jira and Confluence workflows.
+                            </p>
+                        </div>
+                    </div>
                 </div>
 
-                {/* Decorative Grid */}
-                <div
-                    className="absolute inset-0 opacity-[0.03] pointer-events-none"
-                    style={{
-                        backgroundImage: `linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)`,
-                        backgroundSize: '40px 40px'
-                    }}
-                />
-            </div>
+                {/* Form Side */}
+                <div className="p-12 flex flex-col justify-center">
+                    <div className="max-w-md mx-auto w-full">
+                        <h1 className="text-2xl font-bold text-slate-900 mb-2">Create Account</h1>
+                        <p className="text-slate-500 text-sm mb-8">Enter your details significantly below.</p>
 
-            {/* Right Side - Form */}
-            <div className="w-full lg:w-1/2 flex items-center justify-center p-6 z-10 overflow-y-auto">
-                <motion.div
-                    initial={{ x: 20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    className="max-w-md w-full py-8"
-                >
-                    <div className="mb-8">
-                        <h1 className="text-4xl font-bold mb-3 tracking-tight">Create Account</h1>
-                        <p className="text-zinc-400">
-                            Already have an account?{' '}
-                            <Link to="/login" className="text-indigo-400 hover:text-indigo-300 font-medium transition-colors">
-                                Log in
-                            </Link>
-                        </p>
-                    </div>
-
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                        {/* Role Selection */}
-                        <div className="grid grid-cols-2 gap-4">
-                            <button
-                                type="button"
-                                onClick={() => setRole('End User')}
-                                className={cn(
-                                    "relative p-4 rounded-2xl border flex flex-col items-center gap-3 transition-all duration-300 group overflow-hidden",
-                                    role === 'End User'
-                                        ? "bg-indigo-600/10 border-indigo-500 text-indigo-400 ring-1 ring-indigo-500/50"
-                                        : "bg-zinc-900/50 border-white/10 text-zinc-500 hover:border-white/20 hover:bg-zinc-900"
-                                )}
-                            >
-                                <div className={cn(
-                                    "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-                                    role === 'End User' ? "bg-indigo-500 text-white" : "bg-zinc-800 group-hover:bg-zinc-700 text-zinc-400"
-                                )}>
-                                    <User size={20} />
+                        <form onSubmit={handleSubmit} className="space-y-5">
+                            {error && (
+                                <div className="p-3 rounded-md bg-red-50 border border-red-100 text-red-600 text-sm font-medium">
+                                    {error}
                                 </div>
-                                <span className="text-sm font-semibold">End User</span>
-                                {role === 'End User' && (
-                                    <div className="absolute top-3 right-3 text-indigo-500">
-                                        <Check size={16} />
-                                    </div>
-                                )}
-                            </button>
+                            )}
 
-                            <button
-                                type="button"
-                                onClick={() => setRole('Business User')}
-                                className={cn(
-                                    "relative p-4 rounded-2xl border flex flex-col items-center gap-3 transition-all duration-300 group overflow-hidden",
-                                    role === 'Business User'
-                                        ? "bg-indigo-600/10 border-indigo-500 text-indigo-400 ring-1 ring-indigo-500/50"
-                                        : "bg-zinc-900/50 border-white/10 text-zinc-500 hover:border-white/20 hover:bg-zinc-900"
-                                )}
-                            >
-                                <div className={cn(
-                                    "w-10 h-10 rounded-full flex items-center justify-center transition-colors",
-                                    role === 'Business User' ? "bg-indigo-500 text-white" : "bg-zinc-800 group-hover:bg-zinc-700 text-zinc-400"
-                                )}>
-                                    <Building2 size={20} />
-                                </div>
-                                <span className="text-sm font-semibold">Business User</span>
-                                {role === 'Business User' && (
-                                    <div className="absolute top-3 right-3 text-indigo-500">
-                                        <Check size={16} />
-                                    </div>
-                                )}
-                            </button>
-                        </div>
-
-                        {error && (
-                            <motion.div
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                className="p-4 rounded-xl bg-red-500/10 border border-red-500/20 text-red-500 text-sm flex items-center gap-2"
-                            >
-                                <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
-                                {error}
-                            </motion.div>
-                        )}
-
-                        <div className="space-y-4">
-                            <div className="space-y-1.5">
-                                <label className="text-sm font-medium text-zinc-400 ml-1">Username</label>
-                                <div className={cn(
-                                    "relative group transition-all duration-300 rounded-xl overflow-hidden bg-zinc-900/50 border",
-                                    focusedField === 'username' ? "border-indigo-500/50 ring-2 ring-indigo-500/20" : "border-white/10 hover:border-white/20"
-                                )}>
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
-                                        <UserIcon size={18} />
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Username</label>
+                                <div className="relative">
+                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+                                        <User size={18} />
                                     </div>
                                     <input
                                         type="text"
                                         required
                                         value={formData.username}
-                                        onFocus={() => setFocusedField('username')}
-                                        onBlur={() => setFocusedField(null)}
                                         onChange={(e) => setFormData({ ...formData, username: e.target.value })}
-                                        className="w-full pl-11 pr-4 py-3.5 bg-transparent text-white placeholder:text-zinc-600 outline-none"
-                                        placeholder="Choose a username"
+                                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-md text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-medium text-sm"
+                                        placeholder="Username"
                                     />
                                 </div>
                             </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-sm font-medium text-zinc-400 ml-1">Password</label>
-                                <div className={cn(
-                                    "relative group transition-all duration-300 rounded-xl overflow-hidden bg-zinc-900/50 border",
-                                    focusedField === 'password' ? "border-indigo-500/50 ring-2 ring-indigo-500/20" : "border-white/10 hover:border-white/20"
-                                )}>
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Password</label>
+                                <div className="relative">
+                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
                                         <Lock size={18} />
                                     </div>
                                     <input
                                         type="password"
                                         required
                                         value={formData.password}
-                                        onFocus={() => setFocusedField('password')}
-                                        onBlur={() => setFocusedField(null)}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                        className="w-full pl-11 pr-4 py-3.5 bg-transparent text-white placeholder:text-zinc-600 outline-none"
-                                        placeholder="Create a password"
+                                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-md text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-medium text-sm"
+                                        placeholder="Min 8 characters"
                                     />
                                 </div>
                             </div>
 
-                            <div className="space-y-1.5">
-                                <label className="text-sm font-medium text-zinc-400 ml-1">Confirm Password</label>
-                                <div className={cn(
-                                    "relative group transition-all duration-300 rounded-xl overflow-hidden bg-zinc-900/50 border",
-                                    focusedField === 'confirmPassword' ? "border-indigo-500/50 ring-2 ring-indigo-500/20" : "border-white/10 hover:border-white/20"
-                                )}>
-                                    <div className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500">
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Confirm Password</label>
+                                <div className="relative">
+                                    <div className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
                                         <Lock size={18} />
                                     </div>
                                     <input
                                         type="password"
                                         required
                                         value={formData.confirmPassword}
-                                        onFocus={() => setFocusedField('confirmPassword')}
-                                        onBlur={() => setFocusedField(null)}
                                         onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-                                        className="w-full pl-11 pr-4 py-3.5 bg-transparent text-white placeholder:text-zinc-600 outline-none"
-                                        placeholder="Confirm your password"
+                                        className="w-full pl-10 pr-4 py-2.5 bg-white border border-slate-300 rounded-md text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all font-medium text-sm"
+                                        placeholder="Repeat password"
                                     />
                                 </div>
                             </div>
-                        </div>
 
-                        <button
-                            type="submit"
-                            disabled={isLoading}
-                            className="w-full py-4 rounded-xl bg-indigo-600 text-white font-bold tracking-wide hover:bg-indigo-500 hover:shadow-lg hover:shadow-indigo-500/20 active:scale-[0.98] transition-all disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 mt-8"
-                        >
-                            {isLoading ? (
-                                <Loader2 className="w-5 h-5 animate-spin" />
-                            ) : (
-                                <>
-                                    Create Account
-                                    <ArrowRight className="w-4 h-4" />
-                                </>
-                            )}
-                        </button>
-                    </form>
-                </motion.div>
+                            <div className="pt-2">
+                                <button
+                                    type="submit"
+                                    disabled={isLoading}
+                                    className="w-full py-3 rounded-md bg-blue-700 text-white font-bold text-sm hover:bg-blue-800 focus:ring-4 focus:ring-blue-100 transition-all disabled:opacity-70 flex items-center justify-center gap-2"
+                                >
+                                    {isLoading ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Create Account'}
+                                    <ArrowRight size={16} />
+                                </button>
+                            </div>
+
+                            <p className="text-center text-sm text-slate-500">
+                                Already have an account?{' '}
+                                <Link to="/login" className="text-blue-700 font-bold hover:underline">
+                                    Sign in
+                                </Link>
+                            </p>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     );

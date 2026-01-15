@@ -245,8 +245,10 @@ const SidebarContent: React.FC<SidebarProps & { setOpen: (o: boolean) => void }>
         <div className="mt-auto flex flex-col gap-2">
           {/* User Profile */}
           <div className={cn(
-            "flex items-center gap-3 py-3 px-2 rounded-xl bg-neutral-100 dark:bg-neutral-900/50 border border-neutral-200 dark:border-neutral-800",
-            open ? "justify-start" : "justify-center"
+            "flex items-center gap-3 py-3 px-2 rounded-xl transition-all",
+            open
+              ? "bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 justify-start"
+              : "justify-center hover:bg-neutral-100 dark:hover:bg-neutral-900"
           )}>
             <div className="h-8 w-8 rounded-lg bg-gradient-to-tr from-blue-500 to-purple-500 flex items-center justify-center shrink-0">
               <span className="text-xs font-bold text-white">

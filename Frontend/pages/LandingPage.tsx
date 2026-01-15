@@ -1,157 +1,235 @@
-import React, { useRef, useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
-import { ArrowRight, Bot, Shield, Zap, Database, Users, Briefcase, FileText, HelpCircle, ChevronRight, Sparkles } from 'lucide-react';
-import { cn } from '../lib/utils';
+import { motion } from 'framer-motion';
+import {
+    ArrowRight, MessageSquare, Ticket, FileText,
+    CheckCircle2, Building2, ShieldCheck, Zap,
+    ArrowUpRight
+} from 'lucide-react';
 
 export const LandingPage: React.FC = () => {
     return (
-        <div className="min-h-screen bg-black text-white selection:bg-indigo-500/30 font-sans overflow-x-hidden">
-            <BackgroundGrid />
-
-            {/* Navigation */}
-            <nav className="fixed w-full z-50 top-0 left-0 border-b border-white/5 bg-black/50 backdrop-blur-xl">
-                <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
-                    <div className="flex items-center gap-3">
-                        <div className="relative group">
-                            <div className="absolute -inset-2 bg-gradient-to-r from-blue-600 to-violet-600 rounded-lg blur opacity-25 group-hover:opacity-75 transition duration-1000 group-hover:duration-200"></div>
-                            <div className="relative w-10 h-10 rounded-xl bg-black border border-white/10 flex items-center justify-center">
-                                <Bot className="w-6 h-6 text-white" />
-                            </div>
+        <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-blue-100 selection:text-blue-900 overflow-x-hidden">
+            {/* Navbar - Simplified */}
+            <nav className="fixed w-full z-50 top-0 bg-white/90 backdrop-blur-md border-b border-slate-200">
+                <div className="max-w-7xl mx-auto h-20 px-6 flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                        <div className="w-10 h-10 bg-blue-700 rounded-lg flex items-center justify-center text-white shadow-md">
+                            <Building2 size={24} />
                         </div>
-                        <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white via-white to-white/70">
-                            Agentic Chat Assistant
-                        </span>
+                        <span className="text-xl font-bold tracking-tight text-slate-900">Hexa Agent Assistant</span>
                     </div>
-                    <div className="flex items-center gap-6">
-                        <Link to="/login" className="hidden md:block text-sm font-medium text-zinc-400 hover:text-white transition-colors">
-                            Log in
+                    {/* Right Side Actions Only */}
+                    <div className="flex items-center gap-4">
+                        <Link to="/signup" className="text-sm font-medium text-slate-700 hover:text-blue-700 transition-colors">
+                            Sign Up
                         </Link>
                         <Link
-                            to="/signup"
-                            className="group relative px-6 py-2.5 rounded-full bg-white text-black text-sm font-bold tracking-wide hover:bg-zinc-200 transition-all overflow-hidden"
+                            to="/login"
+                            className="bg-blue-700 text-white px-6 py-2.5 rounded-md text-sm font-semibold hover:bg-blue-800 transition-all shadow-sm hover:shadow-md"
                         >
-                            <span className="relative z-10">Get Started</span>
-                            <div className="absolute inset-0 bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 opacity-0 group-hover:opacity-10 transition-opacity" />
+                            Login
                         </Link>
                     </div>
                 </div>
             </nav>
 
             {/* Hero Section */}
-            <HeroSection />
+            <section className="pt-32 pb-20 px-6 relative overflow-hidden">
+                <div className="absolute top-0 right-0 -z-10 w-[800px] h-[800px] bg-slate-50 rounded-full blur-3xl opacity-50 translate-x-1/2 -translate-y-1/2"></div>
+                <div className="absolute bottom-0 left-0 -z-10 w-[600px] h-[600px] bg-blue-50 rounded-full blur-3xl opacity-50 -translate-x-1/2 translate-y-1/2"></div>
 
-            {/* Role Based Features */}
-            <section className="py-32 relative">
-                <div className="absolute inset-0 bg-zinc-900/0" />
-                <div className="max-w-7xl mx-auto px-6 relative z-10">
-                    <div className="text-center mb-24">
-                        <h2 className="text-3xl md:text-5xl font-bold mb-6 bg-clip-text text-transparent bg-gradient-to-b from-white to-white/40">
-                            Orchestrated for Everyone
-                        </h2>
-                        <p className="text-lg text-zinc-400 max-w-2xl mx-auto">
-                            Whether you need guidance or you're managing the process, our intelligent agents adapt to your role.
-                        </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16">
-                        <RoleCard
-                            title="End Users"
-                            description="For applicants and non-technical users seeking guidance and clarity."
-                            icon={<Users className="w-8 h-8 text-blue-400" />}
-                            features={[
-                                "Guided application completion",
-                                "Instant answers from documentation",
-                                "Personalized requirements checklist"
-                            ]}
-                            gradient="from-blue-500/20 to-cyan-500/20"
-                            border="group-hover:border-blue-500/50"
-                        />
-                        <RoleCard
-                            title="Business Users"
-                            description="For internal teams managing processes, support, and documentation."
-                            icon={<Briefcase className="w-8 h-8 text-purple-400" />}
-                            features={[
-                                "Deep technical deep-dives",
-                                "Automated ticket creation (JIRA/SNOW)",
-                                "Business logic analysis"
-                            ]}
-                            gradient="from-purple-500/20 to-pink-500/20"
-                            border="group-hover:border-purple-500/50"
-                        />
-                    </div>
-                </div>
-            </section>
-
-            {/* Integration Section */}
-            <section className="py-32 relative border-t border-white/5">
-                <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div>
-                            <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                                Powered by your <br />
-                                <span className="text-indigo-500">Knowledge Ecosystem</span>
-                            </h2>
-                            <p className="text-zinc-400 text-lg mb-8 leading-relaxed">
-                                We don't just chat. We connect deeply with your existing tools to provide actionable insights and real-time resolution.
-                            </p>
-
-                            <div className="flex flex-col gap-4">
-                                <IntegrationItem
-                                    icon={<FileText className="w-5 h-5 text-blue-400" />}
-                                    title="Confluence"
-                                    desc="Real-time syncing with your spaces for up-to-date answers."
-                                />
-                                <IntegrationItem
-                                    icon={<HelpCircle className="w-5 h-5 text-green-400" />}
-                                    title="JIRA & ServiceNow"
-                                    desc="Raise tickets and track statuses without leaving the conversation."
-                                />
-                                <IntegrationItem
-                                    icon={<Database className="w-5 h-5 text-purple-400" />}
-                                    title="Vector Database"
-                                    desc="Semantic search that finds the needle in the haystack."
-                                />
-                            </div>
+                <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                    <motion.div
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        className="max-w-xl"
+                    >
+                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-100 text-blue-700 text-xs font-bold uppercase tracking-wide mb-6">
+                            <span className="w-2 h-2 rounded-full bg-blue-600"></span>
+                            Enterprise Ready
                         </div>
 
-                        <div className="relative">
-                            <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-purple-600 rounded-2xl blur-xl opacity-20 animate-pulse" />
-                            <div className="relative rounded-2xl bg-black border border-white/10 p-2 overflow-hidden">
-                                <div className="rounded-xl bg-zinc-900/50 p-8 min-h-[400px] flex flex-col relative overflow-hidden">
-                                    <div className="absolute top-0 right-0 p-8 opacity-20">
-                                        <Bot className="w-64 h-64 text-white rotate-12" />
+                        <h1 className="text-5xl md:text-6xl font-bold tracking-tight text-slate-900 mb-6 leading-[1.15]">
+                            Business Query <br /> & <span className="text-blue-700">Ticket Automation</span>.
+                        </h1>
+
+                        <p className="text-xl text-slate-500 mb-8 leading-relaxed">
+                            Hexa Agent Assistant helps you resolve business queries—like filling out complex forms—and instantly raises Jira tickets for any issues.
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row gap-4">
+                            <Link
+                                to="/login"
+                                className="h-14 px-8 rounded-md bg-blue-700 text-white font-semibold text-lg flex items-center justify-center gap-2 hover:bg-blue-800 transition-all shadow-lg shadow-blue-900/10"
+                            >
+                                Start Automation
+                                <ArrowRight size={20} />
+                            </Link>
+                        </div>
+                    </motion.div>
+
+                    {/* Chat Interface Mockup - Business Form Query & Ticket Raising */}
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.2 }}
+                        className="relative"
+                    >
+                        {/* Background Decorative Blob */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-blue-100 to-indigo-50 rounded-3xl transform rotate-3 scale-105 -z-10"></div>
+
+                        <div className="bg-white rounded-xl shadow-2xl border border-slate-200 overflow-hidden">
+                            {/* Window Header */}
+                            <div className="bg-slate-50 border-b border-slate-200 px-6 py-4 flex items-center justify-between">
+                                <div className="flex items-center gap-3">
+                                    <div className="w-3 h-3 rounded-full bg-red-400"></div>
+                                    <div className="w-3 h-3 rounded-full bg-amber-400"></div>
+                                    <div className="w-3 h-3 rounded-full bg-green-400"></div>
+                                </div>
+                                <div className="text-xs font-semibold text-slate-400">Hexa Agent / Support</div>
+                            </div>
+
+                            {/* Chat Content */}
+                            <div className="p-6 space-y-6 bg-slate-50/50 h-[500px]">
+                                {/* User Query: Form Filling */}
+                                <div className="flex justify-end">
+                                    <div className="bg-blue-600 text-white p-4 rounded-2xl rounded-tr-none shadow-lg shadow-blue-600/10 max-w-[85%]">
+                                        <p className="text-sm">
+                                            I'm stuck on the <strong>Project Budget Request</strong> form. What is the Cost Center code for Marketing?
+                                        </p>
                                     </div>
-                                    <div className="relative z-10 space-y-4">
-                                        <div className="bg-white/5 border border-white/5 rounded-lg p-4 max-w-[80%]">
-                                            <div className="h-2 w-20 bg-zinc-700/50 rounded mb-2" />
-                                            <div className="h-2 w-full bg-zinc-700/50 rounded" />
+                                </div>
+
+                                {/* AI Response 1: Form Guidance */}
+                                <div className="flex items-start gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-sm shrink-0">
+                                        <Building2 size={20} className="text-blue-700" />
+                                    </div>
+                                    <div className="bg-white border border-slate-200 p-5 rounded-2xl rounded-tl-none shadow-sm max-w-[90%] space-y-3">
+                                        <p className="text-sm text-slate-700 leading-relaxed">
+                                            According to the <strong>Finance Handbook 2024</strong>, the Marketing Cost Center code is <strong>MKT-2024</strong>.
+                                        </p>
+                                        <div className="flex gap-2">
+                                            <div className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-lg flex items-center gap-2 text-xs font-semibold text-blue-700 cursor-pointer hover:bg-blue-50">
+                                                <FileText size={14} />
+                                                Open Finance Handbook
+                                            </div>
                                         </div>
-                                        <div className="bg-indigo-600/20 border border-indigo-500/30 rounded-lg p-4 max-w-[80%] self-end">
-                                            <div className="h-2 w-32 bg-indigo-400/30 rounded mb-2" />
-                                            <div className="h-2 w-24 bg-indigo-400/30 rounded" />
-                                        </div>
-                                        <div className="flex gap-2 justify-center mt-12">
-                                            <span className="w-2 h-2 rounded-full bg-zinc-700 animate-bounce" style={{ animationDelay: '0s' }} />
-                                            <span className="w-2 h-2 rounded-full bg-zinc-700 animate-bounce" style={{ animationDelay: '0.2s' }} />
-                                            <span className="w-2 h-2 rounded-full bg-zinc-700 animate-bounce" style={{ animationDelay: '0.4s' }} />
+                                    </div>
+                                </div>
+
+                                {/* User Query: Issue */}
+                                <div className="flex justify-end">
+                                    <div className="bg-blue-600 text-white p-4 rounded-2xl rounded-tr-none shadow-lg shadow-blue-600/10 max-w-[85%]">
+                                        <p className="text-sm">
+                                            Thanks. When I click submit, the form freezes and gives a timeout error.
+                                        </p>
+                                    </div>
+                                </div>
+
+                                {/* AI Response 2: Ticket Raising */}
+                                <div className="flex items-start gap-4">
+                                    <div className="w-10 h-10 rounded-full bg-white border border-slate-200 flex items-center justify-center shadow-sm shrink-0">
+                                        <Building2 size={20} className="text-blue-700" />
+                                    </div>
+                                    <div className="bg-white border border-slate-200 p-5 rounded-2xl rounded-tl-none shadow-sm max-w-[90%] space-y-4">
+                                        <p className="text-sm text-slate-700">
+                                            I've detected the timeout. I'm raising a priority ticket for the IT Support team.
+                                        </p>
+
+                                        {/* Mock Jira Ticket Card */}
+                                        <div className="border border-slate-200 rounded-lg overflow-hidden bg-white">
+                                            <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex items-center gap-2">
+                                                <div className="w-4 h-4 bg-blue-500 rounded text-[10px] flex items-center justify-center text-white font-bold">J</div>
+                                                <span className="text-xs font-semibold text-slate-700">New Ticket Created</span>
+                                            </div>
+                                            <div className="p-4">
+                                                <div className="text-sm font-bold text-slate-900 mb-1">Form Submission Timeout - Budget Request</div>
+                                                <div className="flex items-center gap-3 text-xs text-slate-500 mb-2">
+                                                    <span className="px-2 py-0.5 bg-red-50 text-red-600 rounded font-medium">High Priority</span>
+                                                    <span>Assignee: IT Support</span>
+                                                </div>
+                                                <p className="text-xs text-slate-500">
+                                                    User reported freezing/timeout on Budget Request form submission.
+                                                </p>
+                                            </div>
+                                            <div className="px-4 py-3 bg-slate-50 border-t border-slate-200 flex gap-3">
+                                                <button className="flex-1 bg-white border border-slate-300 text-slate-700 text-xs font-semibold py-2 rounded hover:bg-slate-50 transition-colors">View Ticket #DEV-4029</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                    </motion.div>
+                </div>
+            </section>
+
+            {/* Value Proposition */}
+            <section className="py-24 px-6 bg-white" id="features">
+                <div className="max-w-7xl mx-auto">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+                        <FeatureColumn
+                            icon={<FileText className="text-blue-600" size={24} />}
+                            title="Form Assistance"
+                            description="Never get stuck on internal paperwork. Hexa Agent guides you through complex forms and processes step-by-step."
+                        />
+                        <FeatureColumn
+                            icon={<Ticket className="text-blue-600" size={24} />}
+                            title="Instant Ticketing"
+                            description="Turn reported issues into Jira tickets instantly. The AI captures context and logs them for the right team."
+                        />
+                        <FeatureColumn
+                            icon={<ShieldCheck className="text-blue-600" size={24} />}
+                            title="Secure Operations"
+                            description="Enterprise-grade security ensures your internal data and queries remain protected at all times."
+                        />
                     </div>
                 </div>
             </section>
 
-            <footer className="py-12 border-t border-white/5 bg-black">
-                <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <div className="flex items-center gap-2">
-                        <Bot className="w-5 h-5 text-zinc-500" />
-                        <span className="font-semibold text-zinc-400">Agentic Chat Assistant</span>
+            {/* Footer - Dark Theme */}
+            <footer className="bg-slate-900 border-t border-slate-800 pt-20 pb-10">
+                <div className="max-w-7xl mx-auto px-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-16">
+                        <div className="col-span-2 md:col-span-1">
+                            <div className="flex items-center gap-2 mb-6">
+                                <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center text-white">
+                                    <Building2 size={18} />
+                                </div>
+                                <span className="text-lg font-bold text-white">Hexa Agent Assistant</span>
+                            </div>
+                            <p className="text-sm text-slate-400 mb-6">
+                                AI-powered operations platform for modern enterprises.
+                            </p>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-white mb-4 text-sm">Product</h4>
+                            <ul className="space-y-3 text-sm text-slate-400">
+                                <li><a href="#" className="hover:text-blue-400">Features</a></li>
+                                <li><a href="#" className="hover:text-blue-400">Security</a></li>
+                                <li><a href="#" className="hover:text-blue-400">Enterprise</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-white mb-4 text-sm">Company</h4>
+                            <ul className="space-y-3 text-sm text-slate-400">
+                                <li><a href="#" className="hover:text-blue-400">About Us</a></li>
+                                <li><a href="#" className="hover:text-blue-400">Careers</a></li>
+                                <li><a href="#" className="hover:text-blue-400">Contact</a></li>
+                            </ul>
+                        </div>
+                        <div>
+                            <h4 className="font-bold text-white mb-4 text-sm">Legal</h4>
+                            <ul className="space-y-3 text-sm text-slate-400">
+                                <li><a href="#" className="hover:text-blue-400">Privacy Policy</a></li>
+                                <li><a href="#" className="hover:text-blue-400">Terms of Service</a></li>
+                            </ul>
+                        </div>
                     </div>
-                    <div className="text-sm text-zinc-600">
-                        © 2024 Agentic AI Hackathon. All rights reserved.
+                    <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center text-sm text-slate-500">
+                        <div>© 2026 Hexa Agent Inc. All rights reserved.</div>
                     </div>
                 </div>
             </footer>
@@ -159,128 +237,12 @@ export const LandingPage: React.FC = () => {
     );
 };
 
-// --- Sub Components ---
-
-const HeroSection = () => {
-    return (
-        <section className="relative min-h-screen flex items-center justify-center pt-20 overflow-hidden">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_500px_at_50%_200px,#3b82f630,transparent)]" />
-
-            <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md mb-8 hover:bg-white/10 transition-colors cursor-default"
-                >
-                    <Sparkles className="w-4 h-4 text-amber-300" />
-                    <span className="text-sm font-medium text-zinc-300">Next Gen Enterprise AI</span>
-                </motion.div>
-
-                <motion.h1
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.1 }}
-                    className="text-6xl md:text-8xl font-bold tracking-tight mb-8"
-                >
-                    <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-white/50">
-                        Intelligence,
-                    </span>
-                    <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400 pb-2">
-                        Democratized.
-                    </span>
-                </motion.h1>
-
-                <motion.p
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.2 }}
-                    className="text-xl text-zinc-400 mb-12 max-w-2xl mx-auto leading-relaxed"
-                >
-                    Bridge the gap between complex knowledge bases and instant answers.
-                    Empower every user role with context-aware AI support.
-                </motion.p>
-
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
-                    className="flex flex-col sm:flex-row items-center justify-center gap-4"
-                >
-                    <Link
-                        to="/signup"
-                        className="group relative px-8 py-4 rounded-full bg-indigo-600 text-white font-bold tracking-wide hover:bg-indigo-500 transition-all hover:scale-105 hover:shadow-[0_0_40px_-10px_rgba(79,70,229,0.5)]"
-                    >
-                        Start Free Trial
-                        <ChevronRight className="w-4 h-4 inline-block ml-1 group-hover:translate-x-1 transition-transform" />
-                    </Link>
-                    <Link
-                        to="/login"
-                        className="px-8 py-4 rounded-full bg-zinc-900 border border-zinc-800 text-white font-medium hover:bg-zinc-800 transition-all"
-                    >
-                        View Demo
-                    </Link>
-                </motion.div>
-            </div>
-        </section>
-    );
-};
-
-const RoleCard = ({ title, description, icon, features, gradient, border }: any) => {
-    return (
-        <motion.div
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            className={`group relative p-8 md:p-10 rounded-3xl bg-zinc-900/40 border border-white/5 ${border} hover:bg-zinc-900/60 transition-all duration-500 overflow-hidden`}
-        >
-            <div className={`absolute top-0 right-0 w-[400px] h-[400px] bg-gradient-to-br ${gradient} blur-3xl rounded-full opacity-0 group-hover:opacity-10 transition-opacity duration-700 translate-x-1/2 -translate-y-1/2`} />
-
-            <div className="relative z-10">
-                <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500">
-                    {icon}
-                </div>
-                <h3 className="text-3xl font-bold mb-4">{title}</h3>
-                <p className="text-zinc-400 mb-10 text-lg">{description}</p>
-
-                <ul className="space-y-4">
-                    {features.map((feature: string, i: number) => (
-                        <li key={i} className="flex items-center gap-3 text-zinc-300">
-                            <div className="w-6 h-6 rounded-full bg-white/5 flex items-center justify-center shrink-0">
-                                <div className="w-2 h-2 rounded-full bg-indigo-500" />
-                            </div>
-                            {feature}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        </motion.div>
-    );
-};
-
-const IntegrationItem = ({ icon, title, desc }: any) => (
-    <div className="flex gap-4 p-4 rounded-2xl hover:bg-white/5 transition-colors cursor-default">
-        <div className="mt-1 w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center shrink-0">
+const FeatureColumn = ({ icon, title, description }: any) => (
+    <div className="group">
+        <div className="w-12 h-12 bg-blue-50 rounded-xl flex items-center justify-center mb-6 group-hover:bg-blue-100 transition-colors">
             {icon}
         </div>
-        <div>
-            <h4 className="font-bold text-lg mb-1">{title}</h4>
-            <p className="text-sm text-zinc-400 leading-relaxed">{desc}</p>
-        </div>
-    </div>
-);
-
-const BackgroundGrid = () => (
-    <div className="fixed inset-0 z-0 pointer-events-none">
-        <div className="absolute inset-x-0 top-0 h-[50vh] bg-gradient-to-b from-indigo-900/10 to-transparent" />
-        <div
-            className="absolute inset-0 opacity-[0.03]"
-            style={{
-                backgroundImage: `linear-gradient(white 1px, transparent 1px), linear-gradient(90deg, white 1px, transparent 1px)`,
-                backgroundSize: '50px 50px'
-            }}
-        />
-        <div className="absolute inset-x-0 bottom-0 h-[50vh] bg-gradient-to-t from-black via-black/80 to-transparent" />
+        <h3 className="text-xl font-bold text-slate-900 mb-3">{title}</h3>
+        <p className="text-slate-600 leading-relaxed">{description}</p>
     </div>
 );
