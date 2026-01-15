@@ -7,6 +7,7 @@ import uuid
 from sentence_transformers import SentenceTransformer
 import io
 from pypdf import PdfReader
+from docx import Document
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from core.config import *
@@ -83,6 +84,31 @@ class KnowledgeBase:
         except Exception as e:
             print(f"Error reading PDF: {e}")
             return ""
+    
+    def extract_text_from_docx(self, docx_bytes):
+        try:
+            doc = Document(io.BytesIO(docx_bytes))
+            text = ""
+            for paragraph in doc.paragraphs:
+                text += paragraph.text + "\n"
+            # Also extract text from tables
+            for table in doc.tables:
+                for row in table.rows:
+                    for cell in row.cells:
+                        text += cell.text + " "
+                    text += "\n"
+            return text
+        except Exception as e:
+            print(f"Error reading DOCX: {e}")
+            return ""
+    
+    def extract_text_from_html(self, html_bytes):
+        try:
+            html_content = html_bytes.decode('utf-8', errors='ignore')
+            return self.clean_html(html_content)
+        except Exception as e:
+            print(f"Error reading HTML: {e}")
+            return ""
 
     def get_attachments(self, page_id):
         url = f"https://{DOMAIN}/wiki/rest/api/content/{page_id}/child/attachment"
@@ -122,25 +148,45 @@ class KnowledgeBase:
         attachment_text = ""
         
         for att in attachments:
-            if att['metadata']['mediaType'] == 'application/pdf':
-                filename = att['title']
-                download_link = att['_links']['download']
-                download_url = f"https://{DOMAIN}/wiki{download_link}"
-                
-                print(f" - Found PDF: {filename}")
-                print(f"   Downloading from: {download_url}")
-                
-                pdf_response = requests.get(
+            media_type = att['metadata']['mediaType']
+            filename = att['title']
+            download_link = att['_links']['download']
+            download_url = f"https://{DOMAIN}/wiki{download_link}"
+            
+            print(f" - Found attachment: {filename} (Type: {media_type})")
+            
+            # Download the file
+            try:
+                file_response = requests.get(
                     download_url,
                     auth=HTTPBasicAuth(EMAIL, API_TOKEN)
                 )
                 
-                if pdf_response.status_code == 200:
-                    pdf_content = self.extract_text_from_pdf(pdf_response.content)
-                    print(f"   Extracted {len(pdf_content)} chars from PDF")
-                    attachment_text += f"\n\n--- Attachment: {filename} ---\n{pdf_content}"
+                if file_response.status_code != 200:
+                    print(f"   Failed to download: {file_response.status_code}")
+                    continue
+                
+                # Process based on file type
+                content = ""
+                if media_type == 'application/pdf':
+                    content = self.extract_text_from_pdf(file_response.content)
+                elif media_type in ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 
+                                   'application/msword']:
+                    content = self.extract_text_from_docx(file_response.content)
+                elif media_type in ['text/html', 'application/xhtml+xml']:
+                    content = self.extract_text_from_html(file_response.content)
                 else:
-                    print(f"   Failed to download PDF: {pdf_response.status_code}")
+                    print(f"   Unsupported file type: {media_type}")
+                    continue
+                
+                if content:
+                    print(f"   Extracted {len(content)} chars from {filename}")
+                    attachment_text += f"\n\n--- Attachment: {filename} ---\n{content}"
+                else:
+                    print(f"   No content extracted from {filename}")
+                    
+            except Exception as e:
+                print(f"   Error processing {filename}: {e}")
 
         # Combine content
         full_content = clean_text + attachment_text
