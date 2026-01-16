@@ -6,13 +6,13 @@ import axios from 'axios';
 export const SignupPage: React.FC = () => {
     const navigate = useNavigate();
     const [isLoading, setIsLoading] = useState(false);
-    // Defaulting to 'Business User' as per MNC theme, can be hardcoded if needed but keeping state since backend expects it
-    const role = 'Business User';
 
+    // Updated state to include role, default to 'Business User'
     const [formData, setFormData] = useState({
         username: '',
         password: '',
-        confirmPassword: ''
+        confirmPassword: '',
+        role: 'Business User'
     });
     const [error, setError] = useState('');
 
@@ -27,11 +27,13 @@ export const SignupPage: React.FC = () => {
 
         setIsLoading(true);
 
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+
         try {
-            const response = await axios.post('http://localhost:8000/api/auth/signup', {
+            const response = await axios.post(`${baseUrl}/auth/signup`, {
                 username: formData.username,
                 password: formData.password,
-                role: role
+                role: formData.role
             });
 
             localStorage.setItem('token', response.data.access_token);
@@ -87,6 +89,35 @@ export const SignupPage: React.FC = () => {
                                     {error}
                                 </div>
                             )}
+
+                            {/* Role Selection - Action Button Type */}
+                            <div>
+                                <label className="block text-sm font-semibold text-slate-700 mb-1.5">Select Role</label>
+                                <div className="grid grid-cols-2 gap-3">
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, role: 'End User' })}
+                                        className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all duration-200 ${formData.role === 'End User'
+                                                ? 'border-blue-600 bg-blue-50 text-blue-700'
+                                                : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                                            }`}
+                                    >
+                                        <User size={20} className="mb-1.5" strokeWidth={2.5} />
+                                        <span className="text-sm font-bold">End User</span>
+                                    </button>
+                                    <button
+                                        type="button"
+                                        onClick={() => setFormData({ ...formData, role: 'Business User' })}
+                                        className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all duration-200 ${formData.role === 'Business User'
+                                                ? 'border-blue-600 bg-blue-50 text-blue-700'
+                                                : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                                            }`}
+                                    >
+                                        <Building2 size={20} className="mb-1.5" strokeWidth={2.5} />
+                                        <span className="text-sm font-bold">Business User</span>
+                                    </button>
+                                </div>
+                            </div>
 
                             <div>
                                 <label className="block text-sm font-semibold text-slate-700 mb-1.5">Username</label>

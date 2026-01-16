@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 
 <head>
   <meta charset="UTF-8" />
@@ -7,7 +7,8 @@
   <title>Agentic AI Assistant</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = {
@@ -18,13 +19,13 @@
             sans: ['Inter', 'sans-serif'],
           },
           colors: {
-            background: '#000000',
-            foreground: '#ffffff',
-            sidebar: '#000000',
-            sidebarBorder: '#171717', // neutral-900
-            inputBg: '#0a0a0a',
-            inputBorder: '#262626', // neutral-800
-            aiMsg: '#0a0a0a',
+            background: '#ffffff',
+            foreground: '#0f172a', /* slate-900 */
+            sidebar: '#f8fafc', /* slate-50 */
+            sidebarBorder: '#e2e8f0', /* slate-200 */
+            inputBg: '#ffffff',
+            inputBorder: '#cbd5e1', /* slate-300 */
+            aiMsg: '#f8fafc',
           }
         }
       }
@@ -38,39 +39,28 @@
     }
 
     ::-webkit-scrollbar-track {
-      background: #000000;
+      background: transparent;
     }
 
     ::-webkit-scrollbar-thumb {
-      background: #333333;
+      background: #cbd5e1;
       border-radius: 3px;
     }
 
     ::-webkit-scrollbar-thumb:hover {
-      background: #555555;
+      background: #94a3b8;
     }
 
     body {
+      background-color: #ffffff;
+      color: #0f172a;
+    }
+
+    .dark body {
       background-color: #000000;
       color: #ffffff;
     }
   </style>
-  <script type="importmap">
-{
-  "imports": {
-    "react": "https://aistudiocdn.com/react@^19.2.1",
-    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
-    "@tanstack/react-query": "https://aistudiocdn.com/@tanstack/react-query@^5.90.12",
-    "react/": "https://aistudiocdn.com/react@^19.2.1/",
-    "axios": "https://aistudiocdn.com/axios@^1.13.2",
-    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
-    "react-markdown": "https://aistudiocdn.com/react-markdown@^10.1.0",
-    "framer-motion": "https://aistudiocdn.com/framer-motion@^11.0.8",
-    "clsx": "https://aistudiocdn.com/clsx@^2.1.0",
-    "tailwind-merge": "https://aistudiocdn.com/tailwind-merge@^2.2.1"
-  }
-}
-</script>
 </head>
 
 <body>

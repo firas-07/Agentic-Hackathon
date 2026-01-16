@@ -11,7 +11,6 @@ export interface StatsResponse {
 }
 
 export interface Source {
-  o
   source: string;
   chunk_text: string;
   chunk_index: number;

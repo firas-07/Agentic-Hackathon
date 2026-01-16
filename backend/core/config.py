@@ -1,6 +1,6 @@
 import os
 from dotenv import load_dotenv
-
+import re
 from pathlib import Path
 
 # Load environment variables from global .env file
@@ -14,9 +14,10 @@ EMAIL = os.getenv("EMAIL")
 API_TOKEN = os.getenv("API_TOKEN")
 DOMAIN = os.getenv("DOMAIN")
 
-# Confluence Page IDs (Comma separated in env)
+# Confluence Page IDs (Comma, space, dot, or pipe separated in env)
 _page_ids_str = os.getenv("PAGE_IDS", "")
-PAGE_IDS = [pid.strip() for pid in _page_ids_str.split(",") if pid.strip()]
+# Split by comma, space, dot, or pipe to handle various copy-paste formats like "id1. id2" or "id1 id2"
+PAGE_IDS = [pid.strip() for pid in re.split(r'[,\s.|]+', _page_ids_str) if pid.strip()]
 
 # Pinecone
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")

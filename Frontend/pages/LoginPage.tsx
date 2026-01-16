@@ -17,8 +17,10 @@ export const LoginPage: React.FC = () => {
         setError('');
         setIsLoading(true);
 
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+
         try {
-            const response = await axios.post('http://localhost:8000/api/auth/login', {
+            const response = await axios.post(`${baseUrl}/auth/login`, {
                 username: formData.username,
                 password: formData.password
             });

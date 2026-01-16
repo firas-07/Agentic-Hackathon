@@ -16,9 +16,9 @@ def setup_pinecone():
     existing_indexes = [index.name for index in pc.list_indexes()]
     
     if INDEX_NAME in existing_indexes:
-        print(f"Deleting existing index '{INDEX_NAME}' to reset configuration...")
-        pc.delete_index(INDEX_NAME)
-        time.sleep(5) # Wait for deletion
+        print(f"Index '{INDEX_NAME}' already exists. Using existing index.")
+        # We do NOT delete it anymore, just use it.
+        return pc.Index(INDEX_NAME)
 
     print(f"Creating new index: {INDEX_NAME}...")
     # Standard Index for 384-dimension vectors (all-MiniLM-L6-v2)

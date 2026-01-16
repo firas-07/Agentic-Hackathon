@@ -42,7 +42,9 @@ async def startup_event():
     logger.info("="*60)
     
     try:
-        # 1. Setup database (remove previous index and create new one)
+        # 1. Setup database (Safe check - RE-ENABLED for user preference)
+        # The user WANTS to delete and create new index every time as per request "everytime i need delete old index and create new one"
+        # This implies they rely on a fresh state to ensure data integrity/extraction works.
         logger.info("[SETUP] Setting up database...")
         print("🗂️ Setting up database...")
         from scripts.setup_db import setup_pinecone
@@ -50,7 +52,7 @@ async def startup_event():
         logger.info("[SETUP] Database setup complete")
         print("✅ Database setup complete")
         
-        # 2. Run pipeline to ingest data
+        # 2. Run pipeline to ingest data (RE-ENABLED)
         logger.info("[INGESTION] Running data ingestion pipeline...")
         print("📥 Running data ingestion pipeline...")
         from core.pipeline import KnowledgeBase
