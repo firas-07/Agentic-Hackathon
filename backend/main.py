@@ -52,18 +52,14 @@ async def startup_event():
         logger.info("[SETUP] Database setup complete")
         print("✅ Database setup complete")
         
-        # 2. Run pipeline to ingest data (Conditional)
-        if os.getenv("RUN_INGESTION_ON_STARTUP", "false").lower() == "true":
-            logger.info("[INGESTION] Running data ingestion pipeline...")
-            print("📥 Running data ingestion pipeline...")
-            from core.pipeline import KnowledgeBase
-            pipeline_kb = KnowledgeBase()
-            pipeline_kb.run_pipeline()
-            logger.info("[INGESTION] Data ingestion complete")
-            print("✅ Data ingestion complete")
-        else:
-            logger.info("[INGESTION] Skipping data ingestion (RUN_INGESTION_ON_STARTUP not set to true)")
-            print("⏩ Skipping data ingestion")
+        # 2. Run pipeline to ingest data (RE-ENABLED)
+        logger.info("[INGESTION] Running data ingestion pipeline...")
+        print("📥 Running data ingestion pipeline...")
+        from core.pipeline import KnowledgeBase
+        pipeline_kb = KnowledgeBase()
+        pipeline_kb.run_pipeline()
+        logger.info("[INGESTION] Data ingestion complete")
+        print("✅ Data ingestion complete")
         
         # 3. Initialize services
         logger.info("[INIT] Initializing services...")

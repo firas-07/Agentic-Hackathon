@@ -1,5 +1,5 @@
 from pinecone import Pinecone
-# from sentence_transformers import SentenceTransformer (Imported lazily)
+from sentence_transformers import SentenceTransformer
 from azure.identity import ClientSecretCredential
 from azure.ai.projects import AIProjectClient
 import textwrap
@@ -37,7 +37,6 @@ class Agent:
         try:
             # Try using huggingface_hub directly to download
             from huggingface_hub import hf_hub_download, snapshot_download
-            from sentence_transformers import SentenceTransformer
             cache_dir = "./models_cache"
             os.makedirs(cache_dir, exist_ok=True)
             

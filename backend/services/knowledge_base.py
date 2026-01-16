@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 import os
 from pinecone import Pinecone
 import uuid
-# from sentence_transformers import SentenceTransformer
+from sentence_transformers import SentenceTransformer
 import sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
@@ -20,7 +20,6 @@ class KnowledgeBase:
         try:
             # Try using huggingface_hub directly to download
             from huggingface_hub import hf_hub_download, snapshot_download
-            from sentence_transformers import SentenceTransformer
             cache_dir = "./models_cache"
             os.makedirs(cache_dir, exist_ok=True)
             
