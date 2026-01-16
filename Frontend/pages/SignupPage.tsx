@@ -27,7 +27,7 @@ export const SignupPage: React.FC = () => {
 
         setIsLoading(true);
 
-        const baseUrl = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+        const baseUrl = import.meta.env.VITE_API_BASE_URL || 'https://cyberbytezz-agentic-hackathon-api.hf.space/api';
 
         try {
             const response = await axios.post(`${baseUrl}/auth/signup`, {
@@ -98,8 +98,8 @@ export const SignupPage: React.FC = () => {
                                         type="button"
                                         onClick={() => setFormData({ ...formData, role: 'End User' })}
                                         className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all duration-200 ${formData.role === 'End User'
-                                                ? 'border-blue-600 bg-blue-50 text-blue-700'
-                                                : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                                            ? 'border-blue-600 bg-blue-50 text-blue-700'
+                                            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
                                             }`}
                                     >
                                         <User size={20} className="mb-1.5" strokeWidth={2.5} />
@@ -109,8 +109,8 @@ export const SignupPage: React.FC = () => {
                                         type="button"
                                         onClick={() => setFormData({ ...formData, role: 'Business User' })}
                                         className={`flex flex-col items-center justify-center p-3 rounded-xl border-2 transition-all duration-200 ${formData.role === 'Business User'
-                                                ? 'border-blue-600 bg-blue-50 text-blue-700'
-                                                : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
+                                            ? 'border-blue-600 bg-blue-50 text-blue-700'
+                                            : 'border-slate-200 bg-white text-slate-600 hover:border-slate-300'
                                             }`}
                                     >
                                         <Building2 size={20} className="mb-1.5" strokeWidth={2.5} />
