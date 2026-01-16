@@ -18,6 +18,7 @@ jira.py
 .env
 **/.env
 *.env
+.venv
 
 # Logs
 logs/

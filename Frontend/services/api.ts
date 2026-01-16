@@ -11,7 +11,7 @@ import {
 // Use environment variable for API URL (set this in Vercel to your Backend URL + /api)
 // Fallback to localhost for local dev if not set
 // We remove any trailing slash to ensure consistency when appending endpoints
-const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api').replace(/\/+$/, '');
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || 'https://cyberbytezz-agentic-hackathon-api.hf.space/api').replace(/\/+$/, '');
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
