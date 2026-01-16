@@ -1,0 +1,47 @@
+services:
+  - type: web
+    name: agentic-hackathon-api
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: EMAIL
+        sync: false
+      - key: API_TOKEN
+        sync: false
+      - key: DOMAIN
+        sync: false
+      - key: PAGE_IDS
+        sync: false
+      - key: PINECONE_API_KEY
+        sync: false
+      - key: INDEX_NAME
+        sync: false
+      - key: EMBEDDING_MODEL_NAME
+        value: all-MiniLM-L6-v2
+      - key: PROJECT_ENDPOINT
+        sync: false
+      - key: CLIENT_ID
+        sync: false
+      - key: CLIENT_SECRET
+        sync: false
+      - key: TENANT_ID
+        sync: false
+      - key: AZURE_MODEL_NAME
+        value: gpt-4o
+      - key: AZURE_AGENT_ID
+        sync: false
+      - key: AZURE_THREAD_ID
+        sync: false
+      - key: SECRET_KEY
+        sync: false
+      - key: JIRA_BASE_URL
+        sync: false
+      - key: JIRA_EMAIL
+        sync: false
+      - key: JIRA_API_TOKEN
+        sync: false
+      - key: JIRA_PROJECT_KEY
+        value: SUP
