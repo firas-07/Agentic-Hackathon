@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import { api } from '../services/api';
 import { MessageSquare, Trash2, Edit2, Plus, Check, X, LogOut, Sun, Moon } from 'lucide-react';
 import { LoadingSpinner } from './LoadingSpinner';
@@ -109,6 +110,7 @@ const ConversationItem = ({
 
 const SidebarContent: React.FC<SidebarProps & { setOpen: (o: boolean) => void }> = ({ activeThreadId, onSelectThread, setOpen }) => {
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
   const { open } = useSidebar();
 
   // Theme state
@@ -294,7 +296,7 @@ const SidebarContent: React.FC<SidebarProps & { setOpen: (o: boolean) => void }>
               localStorage.removeItem('token');
               localStorage.removeItem('role');
               localStorage.removeItem('username');
-              window.location.href = '/login';
+              navigate('/login');
             }}
             className={cn(
               "flex items-center gap-2 py-2 px-2 cursor-pointer transition-colors rounded-md text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-neutral-900",
