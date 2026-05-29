@@ -1,0 +1,557 @@
+# Instincts generated from https://github.com/firas-07/Agentic-Hackathon
+# Generated: 2026-05-29T06:21:23.986Z
+# Version: 2.0
+# NOTE: This file supplements (does not replace) any existing curated instincts.
+# High-confidence manually curated instincts should be preserved alongside these.
+
+---
+id: Agentic-Hackathon-commit-length
+trigger: "when writing a commit message"
+confidence: 0.6
+domain: git
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Commit Length
+
+## Action
+
+Keep commit messages concise (~40 characters)
+
+## Evidence
+
+- Average commit message length: 40 chars
+- Based on 21 commits
+
+---
+id: Agentic-Hackathon-naming-files
+trigger: "when creating a new file"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Naming Files
+
+## Action
+
+Use camelCase naming convention
+
+## Evidence
+
+- Analyzed file naming patterns in repository
+- Dominant pattern: camelCase
+
+---
+id: Agentic-Hackathon-import-relative
+trigger: "when importing modules"
+confidence: 0.75
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Import Relative
+
+## Action
+
+Use relative imports for project files
+
+## Evidence
+
+- Import analysis shows relative import pattern
+- Example: import { x } from '../lib/x'
+
+---
+id: Agentic-Hackathon-export-style
+trigger: "when exporting from a module"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Export Style
+
+## Action
+
+Prefer named exports
+
+## Evidence
+
+- Export pattern analysis
+- Dominant style: named
+
+---
+id: Agentic-Hackathon-test-separate
+trigger: "when writing tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Test Separate
+
+## Action
+
+Place tests in the tests/ or __tests__/ directory, mirroring src structure
+
+## Evidence
+
+- Separate test directory pattern detected
+- Tests live in dedicated test folders
+
+---
+id: Agentic-Hackathon-workflow-feature-development
+trigger: "when implementing a new feature"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Workflow Feature Development
+
+## Action
+
+Follow the feature-development workflow:
+1. Add feature implementation
+2. Add tests for feature
+3. Update documentation
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~11x per month
+- Files: frontend/*, frontend/components/*, frontend/components/chat/*
+
+---
+id: Agentic-Hackathon-workflow-deployment-configuration-update
+trigger: "when doing deployment configuration update"
+confidence: 0.65
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Workflow Deployment Configuration Update
+
+## Action
+
+Follow the deployment-configuration-update workflow:
+1. Edit deployment configuration files (e.g., render.yaml, vercel.json, Dockerfile).
+2. Optionally update environment files (.env.example, .python-version).
+3. Optionally update backend/requirements.txt if dependencies change.
+4. Commit all related files together.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~3x per month
+- Files: backend/render.yaml, Frontend/vercel.json, backend/vercel.json
+
+---
+id: Agentic-Hackathon-workflow-frontend-auth-pages-workflow
+trigger: "when doing frontend auth pages workflow"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Workflow Frontend Auth Pages Workflow
+
+## Action
+
+Follow the frontend-auth-pages-workflow workflow:
+1. Create or update LoginPage.tsx and SignupPage.tsx in Frontend/pages.
+2. Optionally update Sidebar or LandingPage to reflect authentication state.
+3. Commit all related frontend files together.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: Frontend/pages/LoginPage.tsx, Frontend/pages/SignupPage.tsx, Frontend/pages/LandingPage.tsx
+
+---
+id: Agentic-Hackathon-workflow-backend-service-and-pipeline-update
+trigger: "when doing backend service and pipeline update"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Workflow Backend Service And Pipeline Update
+
+## Action
+
+Follow the backend-service-and-pipeline-update workflow:
+1. Edit backend/core/pipeline.py and/or backend/services/*.py files.
+2. Optionally update backend/main.py or backend/requirements.txt.
+3. Commit all related backend files together.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: backend/core/pipeline.py, backend/services/agent.py, backend/services/knowledge_base.py
+
+---
+id: Agentic-Hackathon-workflow-frontend-component-update
+trigger: "when doing frontend component update"
+confidence: 0.6
+domain: workflow
+source: repo-analysis
+source_repo: https://github.com/firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Workflow Frontend Component Update
+
+## Action
+
+Follow the frontend-component-update workflow:
+1. Edit or create component files in Frontend/components/ (e.g., Sidebar.tsx, ChatArea.tsx).
+2. Optionally update related page files in Frontend/pages/.
+3. Commit all related frontend files together.
+
+## Evidence
+
+- Workflow detected from commit patterns
+- Frequency: ~2x per month
+- Files: Frontend/components/Sidebar.tsx, Frontend/components/ChatArea.tsx, Frontend/pages/LandingPage.tsx
+
+---
+id: agentic-hackathon-instinct-file-naming
+trigger: "When creating or renaming files in the codebase"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct File Naming
+
+## Action
+
+Use camelCase for file names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.files
+- Frontend/components/Sidebar.tsx
+
+---
+id: agentic-hackathon-instinct-function-naming
+trigger: "When defining a function"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Function Naming
+
+## Action
+
+Use camelCase for function names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.functions
+
+---
+id: agentic-hackathon-instinct-class-naming
+trigger: "When defining a class"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Class Naming
+
+## Action
+
+Use PascalCase for class names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.classes
+
+---
+id: agentic-hackathon-instinct-constant-naming
+trigger: "When defining a constant"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Constant Naming
+
+## Action
+
+Use SCREAMING_SNAKE_CASE for constant names
+
+## Evidence
+
+- Pattern in codeStyle.namingConventions.constants
+
+---
+id: agentic-hackathon-instinct-relative-imports
+trigger: "When importing modules"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Relative Imports
+
+## Action
+
+Use relative import paths
+
+## Evidence
+
+- Pattern in codeStyle.importStyle
+
+---
+id: agentic-hackathon-instinct-named-exports
+trigger: "When exporting modules or functions"
+confidence: 0.8
+domain: code-style
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Named Exports
+
+## Action
+
+Use named exports
+
+## Evidence
+
+- Pattern in codeStyle.exportStyle
+
+---
+id: agentic-hackathon-instinct-try-catch-errors
+trigger: "When handling errors in code"
+confidence: 0.7
+domain: code-style
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Try Catch Errors
+
+## Action
+
+Use try-catch blocks for error handling
+
+## Evidence
+
+- Pattern in errorHandling.style
+
+---
+id: agentic-hackathon-instinct-test-location
+trigger: "When adding or updating tests"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Test Location
+
+## Action
+
+Place test files in a separate directory from source code
+
+## Evidence
+
+- Pattern in architecture.folderStructure.testLocation
+
+---
+id: agentic-hackathon-instinct-test-naming
+trigger: "When naming test files"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Test Naming
+
+## Action
+
+Use the pattern *.test.* for test file names
+
+## Evidence
+
+- Pattern in workflows.feature-development.filesInvolved
+
+---
+id: agentic-hackathon-instinct-test-sequence
+trigger: "When implementing a new feature"
+confidence: 0.8
+domain: testing
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Test Sequence
+
+## Action
+
+Add tests for the feature immediately after implementation and before documentation updates
+
+## Evidence
+
+- workflows.feature-development.commitSequence
+
+---
+id: agentic-hackathon-instinct-commit-prefix
+trigger: "When writing a commit message for a new feature"
+confidence: 0.9
+domain: git
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Commit Prefix
+
+## Action
+
+Prefix the commit message with 'feat:'
+
+## Evidence
+
+- Pattern in commits.prefixes
+- Example: 'feat: Add Sidebar component...'
+
+---
+id: agentic-hackathon-instinct-commit-length
+trigger: "When writing a commit message"
+confidence: 0.7
+domain: git
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Commit Length
+
+## Action
+
+Keep commit messages concise, around 40 characters on average
+
+## Evidence
+
+- Pattern in commits.averageLength
+
+---
+id: agentic-hackathon-instinct-commit-grouping
+trigger: "When committing related changes (e.g., feature, tests, docs)"
+confidence: 0.8
+domain: git
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Commit Grouping
+
+## Action
+
+Group related changes into a single commit sequence (feature, then tests, then docs)
+
+## Evidence
+
+- workflows.feature-development.commitSequence
+
+---
+id: agentic-hackathon-instinct-deployment-config-update
+trigger: "When someone needs to add, update, or fix deployment settings (e.g., Render, Vercel, Docker) for the project"
+confidence: 0.95
+domain: workflow
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Deployment Config Update
+
+## Action
+
+Edit deployment configuration files, optionally update environment and requirements files, and commit all related files together
+
+## Evidence
+
+- workflows.deployment-configuration-update
+- Pattern in filesInvolved
+- Example commits editing Dockerfile, render.yaml, etc.
+
+---
+id: agentic-hackathon-instinct-frontend-auth-pages
+trigger: "When someone wants to implement or modify user authentication (login/signup) in the frontend"
+confidence: 0.9
+domain: workflow
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Frontend Auth Pages
+
+## Action
+
+Create or update LoginPage.tsx and SignupPage.tsx, optionally update Sidebar or LandingPage, and commit all related frontend files together
+
+## Evidence
+
+- workflows.frontend-auth-pages-workflow
+- Example commits updating LoginPage.tsx, SignupPage.tsx, Sidebar.tsx
+
+---
+id: agentic-hackathon-instinct-backend-service-update
+trigger: "When someone wants to add or modify backend processing logic or services"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Backend Service Update
+
+## Action
+
+Edit backend/core/pipeline.py and/or backend/services/*.py, optionally update backend/main.py or backend/requirements.txt, and commit all related backend files together
+
+## Evidence
+
+- workflows.backend-service-and-pipeline-update
+- Example commits editing pipeline.py, agent.py, requirements.txt
+
+---
+id: agentic-hackathon-instinct-frontend-component-update
+trigger: "When someone wants to implement or improve a UI feature in the frontend"
+confidence: 0.85
+domain: workflow
+source: repo-analysis
+source_repo: firas-07/Agentic-Hackathon
+---
+
+# Agentic Hackathon Instinct Frontend Component Update
+
+## Action
+
+Edit or create component files in Frontend/components/, optionally update related page files in Frontend/pages/, and commit all related frontend files together
+
+## Evidence
+
+- workflows.frontend-component-update
+- Example commits editing Sidebar.tsx, ChatArea.tsx, LandingPage.tsx
+
